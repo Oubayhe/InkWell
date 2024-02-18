@@ -8,6 +8,8 @@ const express = require('express')
 const userRoutes = require('./routes/user.route')
 const authRoutes = require('./routes/auth.route')
 
+const app = express()
+
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         app.listen(process.env.PORT, () => {
@@ -18,7 +20,6 @@ mongoose.connect(process.env.MONGO_URI)
         console.log(err)
     })
 
-const app = express()
 
 // Middlewares
 // We can use this below as alternative of morgan('dev') middleware

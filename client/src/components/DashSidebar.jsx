@@ -17,7 +17,12 @@ export default function DashSidebar() {
         <Sidebar.Items>
             <Sidebar.ItemGroup>
                 <Link to='/dashboard?tab=profile'>
-                    <Sidebar.Item active={tab === 'profile' } icon={HiUser} label={'User'} labelColor='dark'>
+                    <Sidebar.Item 
+                        active={tab === 'profile' } 
+                        icon={HiUser} label={'User'} 
+                        labelColor='dark'
+                        as='div' // So you don't have a link(Sidebar.Item has a <a></a> tag) within a link(<Link></Link> tag)
+                    >
                         Profile
                     </Sidebar.Item>
                 </Link>

@@ -251,3 +251,67 @@ We use redux persist to save the last current state of the pages even if the rea
     )
     ```
     
+## 5- OAuth Authentication with Google
+OAuth allow users to sign in and up with thier other applications accounts like Google, Meta, GitHub...
+After creating the components for the buttons, you need to follow these steps:
+1. Login to your Firebase account
+2. Go to Console
+3. Create a new project
+4. Name the project & continue
+5. You can either enable or disable Google Analytics for your project & then continue
+6. After little while the project will be ready & after it's done you continue
+7. You click on the web app icon which looks like this: **</>**
+8. You enter the app nickname (just stick to the same name of the project most of the time) & you Register the app
+9. Once you do that, you'll need to install firebase
+```
+npm install firebase
+```
+10. And a create a file in your front-end named firebase.js for example, and add to it the code given to youin firebase website. The code is called firebase SDK or firebase configuration. 
+11. After that you click on Continue to th console -> Authentication -> Get started -> Choose Google -> Click on Enable -> Choose a project name (same as before) -> Choose a Gmail Account and Save
+12. After create the firebase file and adding the SDK code, you'll need to save the **apiKey** in an envirement file ***.env***. And to use the apiKey in SDK code, it's quite different on how to import env variables in Vite.
+```
+apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
+```
+13. And then you need to export the app in the SDK file:
+```
+export const app = initializeApp(firebaseConfig);
+```
+> [!NOTE]
+> All methods that are going to be used for Google Authentication need to be put inside an handle Google button when it's clicked function
+14. For Google Authentication, we need to set a provider with the help of  **GoogleAuthProvider** from firebase/auth
+```
+const provider = new GoogleAuthProvider()
+```
+> [!NOTE]
+> Now with the code above the user will only have to sign in/up once with a certain google account, and after that whenever he/she clicks the button it will directly choose the already chosen account. To disable that, and let the user choose everytime:
+```
+provider.setCustomParameters({ prompt: 'select_account' })
+```
+15. Create the Auth, which should be put ***outside the Google handling function***:
+getAuth is a method from firebase/auth, and app is what we exported from firebase file.
+```
+const auth = getAuth(app)
+```
+16. Next, is the signIn part, where we're going to use **signInPopup** method from firebase/auth, that takes two arguement the auth and provider, after that we set our res to the backend to sing in/up with Google, meaning that the backend controller for this situation is not the regular sign in and upfunctions, but we create one sepcific for this case, so we can check if the user is already in the database or not. And this part will be set within a try&catch methods.
+```
+try {
+    const resultFromGoogle = await signInWithPopup(auth, provider)
+    const res = await fetch( 'api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            username: resultFromGoogle.user.displayName,
+            email: resultFromGoogle.user.email,
+            googlePhotoUrl: resultFromGoogle.user.photoURL,
+        }),
+    })
+    const data = await res.json()
+    if (res.ok){
+        dispatch(signInSuccess(data))
+        navigate('/')
+    }
+} catch (error) {
+    console.log(error)
+}
+```
+17. And with the information send to the backend, the google auth controller can either sing-in ro sign-up the user.

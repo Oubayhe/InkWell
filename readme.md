@@ -45,7 +45,35 @@ This is to simplify some parts of the MERN Project that might be a little of a c
         })
     })
     ```
-## 2- Redux Toolkit
+## 2- Json Web Token
+JSON Web Tokens (JWT) are widely used for several reasons in web development, particularly in the context of user authentication and authorization.
+* How to use:
+    - Install jsonwebtoken
+    ```
+    npm install jsonwebtoken
+    ```
+    - We use it mainly in th sign-in success situation, say the in the backend, the controller function for returning a json object of all the user information after a successfule sign-in, you need to sign a token the user with his id and the JWT SECRET you set in the .env, and it can be anything, and then for the returned response, you set a cookie with signed token:
+    ```
+    const validUser = await User.findOne({ email })
+    if (!validUser) {
+        next(errorHandler(400, 'Wrong email and/or password'))
+    }
+    const validPassword = await bcrypt.compare(password, validUser.password)
+    if(!validPassword) {
+        next(errorHandler(400, 'Wrong email and/or password'))
+    }
+    const token = jwt.sign({ id: validUser._id}, process.env.JWT_SECRET )
+    // down below, we're using password: _pass, instead of just password,
+    // because the variable password is used above,
+    // and it will return an error if we asigned to a value again
+    const {password: unusedpass, ...rest} = validUser._doc
+    // httpOnly: true => the cookie is only accessible by the server and cannot be accessed by client-side JavaScript.
+    // Setting the httpOnly flag to true when creating an HTTP cookie is a security best practice.
+    // Protects Sensitive Data specialy in authentification
+    return res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest)
+    ``` 
+
+## 3- Redux Toolkit
 * We use Redux as an alternative for Context and sepecialy for bigger and more complicated project. The main objectif is to wrap your react app into a companent that can sens the changed in what ever page the user is in and what ever state as well, and render the page based on that, Say it's like a bigger version of useState, but with customization of all the states that we might update the pages on.
 * How To start:
     - You can visit the site:
@@ -161,3 +189,65 @@ In the example above, we can see that we're selecting the loading and error valu
 ``` 
 const { currentUser } = useSelector(state => state.user)
 ```
+
+## 4- Redux Persist
+We use redux persist to save the last current state of the pages even if the react app was refreshed. So in the example above of the state of the sign in of the user, we wouldn't know what was the last state if the user just refershed the page, so it would go to the initial state, but in the case of Redux persist, we would even if the page was refreshed.
+* How to use it:
+    - Install redux persist:
+    ```
+    npm i redux-persist
+    ```
+    - After that we're going to need these methods and object:
+    1. combineReducers a method from @reduxjs/toolkit, and it's for gathering different reducers that we have in our app like 'user', 'theme' ...
+    ```
+    const rootReducer = combineReducers({
+        user: userReducer,
+        theme: themeReducer,
+    })
+    ```
+    2. storage object from redux-persist/lib/storage, and we'll need it to fill all the main 3 attribuets in the persistConfig object, which we'll need in the method below (persistReducer).
+    ```
+    const persistConfig = {
+        key: 'root',
+        storage,
+        version: 1
+    }
+    ```
+    3. persistReducer method from redux-persist, which will take two attributes persistConfig & rootReducer which is the has the combined Reducer that we created with combineReducer.
+    ```
+    const persistedReducer = persistReducer(persistConfig, rootReducer)
+    ```
+    - And after that, we just pass the persistReducer to the reducer attribute in our redux store, and add a bit of a middleware to avoid getting an error:
+    ```
+    export const store = configureStore({
+        reducer: persistedReducer,
+        middleware: (getDefaultMiddleware) => 
+            getDefaultMiddleware({ serializableCheck: false }),
+    })
+    ```
+    - And to finish we need to export a persisted store, and to do that we use persistStore method from redux-persist/es/persistStore
+    ```
+    export const persistor = persistStore(store)
+    ```
+    - And lastly, we need to implement that in the main.jsx file, by wrapping everything with PersistGate Component from redux-persist/intergration/react, and within that component we need to pass our persistor that we created and exported in the store file:
+    ```
+    import React from 'react'
+    import ReactDOM from 'react-dom/client'
+    import App from './App.jsx'
+    import './index.css'
+    import { store, persistor } from './redux/store.js'
+    import { Provider } from 'react-redux'
+    import { PersistGate } from 'redux-persist/integration/react'
+    import ThemeProvider from './components/ThemeProvider.jsx'
+
+    ReactDOM.createRoot(document.getElementById('root')).render(
+    <PersistGate persistor={persistor}>
+        <Provider store={store}>
+        <ThemeProvider>
+            <App />
+        </ThemeProvider>
+        </Provider>
+    </PersistGate>
+    )
+    ```
+    

@@ -2,7 +2,7 @@
 
 This is to simplify some parts of the MERN Project that might be a little of a chanllenge to implement in other projects in the future if your not used to them.
 
-## 1- Error Handling Middleware & Function
+## 6- Dark Mode Functionality 1- Error Handling Middleware & Function
 * When working in the backend , you're going to need to informe the front-end of certain errors, and even need to customize those errors, specialy in thier payload message, therefor, it's good to create a function and a middleware that will help assure that, and facilitate the job.
 * Function:
     - The Function(error.js) has to be in a folder named "utils", and its operation, is to take the statusCode and message and return an Error object (const error = new Error()), with these attributes:
@@ -45,7 +45,7 @@ This is to simplify some parts of the MERN Project that might be a little of a c
         })
     })
     ```
-## 2- Json Web Token
+## 6- Dark Mode Functionality 2- Json Web Token
 JSON Web Tokens (JWT) are widely used for several reasons in web development, particularly in the context of user authentication and authorization.
 * How to use:
     - Install jsonwebtoken
@@ -73,7 +73,7 @@ JSON Web Tokens (JWT) are widely used for several reasons in web development, pa
     return res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest)
     ``` 
 
-## 3- Redux Toolkit
+## 6- Dark Mode Functionality 3- Redux Toolkit
 * We use Redux as an alternative for Context and sepecialy for bigger and more complicated project. The main objectif is to wrap your react app into a companent that can sens the changed in what ever page the user is in and what ever state as well, and render the page based on that, Say it's like a bigger version of useState, but with customization of all the states that we might update the pages on.
 * How To start:
     - You can visit the site:
@@ -190,7 +190,7 @@ In the example above, we can see that we're selecting the loading and error valu
 const { currentUser } = useSelector(state => state.user)
 ```
 
-## 4- Redux Persist
+## 6- Dark Mode Functionality 4- Redux Persist
 We use redux persist to save the last current state of the pages even if the react app was refreshed. So in the example above of the state of the sign in of the user, we wouldn't know what was the last state if the user just refershed the page, so it would go to the initial state, but in the case of Redux persist, we would even if the page was refreshed.
 * How to use it:
     - Install redux persist:
@@ -251,7 +251,7 @@ We use redux persist to save the last current state of the pages even if the rea
     )
     ```
     
-## 5- OAuth Authentication with Google
+## 6- Dark Mode Functionality 5- OAuth Authentication with Google
 OAuth allow users to sign in and up with thier other applications accounts like Google, Meta, GitHub...
 After creating the components for the buttons, you need to follow these steps:
 1. Login to your Firebase account
@@ -315,3 +315,80 @@ try {
 }
 ```
 17. And with the information send to the backend, the google auth controller can either sing-in ro sign-up the user.
+
+## 6- Dark Mode Functionality
+Along teh coding of the ui of the pages, we've set the dark mode by putting 'dark:' before any tailwind attribute to the UI, now all we need to do is to let the server know that we want to pass to the attributes that has dark: before them.
+* How To do it?
+    1. Create A Slice for The Theme:
+        * As we did for the user's slice, we start by going to redux/theme/themeSlice.js. 
+        * Create our slice with createSlice from @reduxjs/toolkit
+        * Put the basic configurations for creating the slice: name, initialState (in this case it will be theme that is set to 'light') and reducers (which has one state situation => Changing the theme state from one to the other)
+        * Export our slice as a reducer and also the state in the reducers, so we can change them in other pages (mainly the top bar / header, where the toggle button is put)
+        ```
+        import { createSlice } from '@reduxjs/toolkit'
+        const initialState = {
+            theme: 'light',
+        }
+
+        const themeSlice = createSlice({
+            name: 'theme',
+            initialState,
+            reducers: {
+                toggleTheme: (state) => {
+                    state.theme = state.theme === 'light' ? 'dark' : 'light'
+                },
+            }
+        })
+        export const {toggleTheme} = themeSlice.actions
+        export default themeSlice.reducer
+        ```
+    2. Add the Theme Reducer to the Redux Store to be combines with other reducers
+    ```
+    const rootReducer = combineReducers({
+        user: userReducer,
+        theme: themeReducer,
+    })
+    ```
+    3. Use the state action in the Header to change the state of the theme. Ofcourse we'll need to import the { toggleTheme } from the themeSlice and useDispatch from react-redux, plus useSelector as well to identifiy the current theme (like if we want to change an icon component we need to know what theme we're currently in)
+    ```
+    onClick={()=> { dispatch(toggleTheme()) }}
+    ```
+    4. Now the last part is to wrap our application with a Theme provider that has the current theme as its className:
+        * ThemeProvider compoenent:
+        ```
+        import React from 'react'
+        import { useSelector } from 'react-redux'
+
+        export default function ThemeProvider({children}) {
+            const {theme} = useSelector(state => state.theme)
+        return (
+            <div className={theme}>
+                <div className="bg-white text-gray-700 dark:text-gray-200 dark:bg-[rgb(16,23,42)] min-h-screen">
+                    {children}
+                </div>
+            </div>
+        )
+        }
+        ```
+        * Wrapping the main app:
+        ```
+        import React from 'react'
+        import ReactDOM from 'react-dom/client'
+        import App from './App.jsx'
+        import './index.css'
+        import { store, persistor } from './redux/store.js'
+        import { Provider } from 'react-redux'
+        import { PersistGate } from 'redux-persist/integration/react'
+        import ThemeProvider from './components/ThemeProvider.jsx'
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+        <PersistGate persistor={persistor}>
+            <Provider store={store}>
+            <ThemeProvider>
+                <App />
+            </ThemeProvider>
+            </Provider>
+        </PersistGate>
+        )
+        ```
+        

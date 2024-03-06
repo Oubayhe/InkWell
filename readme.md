@@ -2,7 +2,7 @@
 
 This is to simplify some parts of the MERN Project that might be a little of a chanllenge to implement in other projects in the future if your not used to them.
 
-## 6- Dark Mode Functionality 1- Error Handling Middleware & Function
+## 1- Error Handling Middleware & Function
 * When working in the backend , you're going to need to informe the front-end of certain errors, and even need to customize those errors, specialy in thier payload message, therefor, it's good to create a function and a middleware that will help assure that, and facilitate the job.
 * Function:
     - The Function(error.js) has to be in a folder named "utils", and its operation, is to take the statusCode and message and return an Error object (const error = new Error()), with these attributes:
@@ -45,7 +45,7 @@ This is to simplify some parts of the MERN Project that might be a little of a c
         })
     })
     ```
-## 6- Dark Mode Functionality 2- Json Web Token
+## 2- Json Web Token
 JSON Web Tokens (JWT) are widely used for several reasons in web development, particularly in the context of user authentication and authorization.
 * How to use:
     - Install jsonwebtoken
@@ -73,7 +73,7 @@ JSON Web Tokens (JWT) are widely used for several reasons in web development, pa
     return res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest)
     ``` 
 
-## 6- Dark Mode Functionality 3- Redux Toolkit
+## 3- Redux Toolkit
 * We use Redux as an alternative for Context and sepecialy for bigger and more complicated project. The main objectif is to wrap your react app into a companent that can sens the changed in what ever page the user is in and what ever state as well, and render the page based on that, Say it's like a bigger version of useState, but with customization of all the states that we might update the pages on.
 * How To start:
     - You can visit the site:
@@ -190,7 +190,7 @@ In the example above, we can see that we're selecting the loading and error valu
 const { currentUser } = useSelector(state => state.user)
 ```
 
-## 6- Dark Mode Functionality 4- Redux Persist
+# 4- Redux Persist
 We use redux persist to save the last current state of the pages even if the react app was refreshed. So in the example above of the state of the sign in of the user, we wouldn't know what was the last state if the user just refershed the page, so it would go to the initial state, but in the case of Redux persist, we would even if the page was refreshed.
 * How to use it:
     - Install redux persist:
@@ -251,7 +251,7 @@ We use redux persist to save the last current state of the pages even if the rea
     )
     ```
     
-## 6- Dark Mode Functionality 5- OAuth Authentication with Google
+## 5- OAuth Authentication with Google
 OAuth allow users to sign in and up with thier other applications accounts like Google, Meta, GitHub...
 After creating the components for the buttons, you need to follow these steps:
 1. Login to your Firebase account
@@ -391,4 +391,197 @@ Along teh coding of the ui of the pages, we've set the dark mode by putting 'dar
         </PersistGate>
         )
         ```
-        
+
+## 7- Make Private Pages
+Now the user, weither he/she is Signed in or not, can navigate to any page (Dashboard, Profile...). But certain are meant for Signed in users only, and to acheive that, we need to create a Private Provider component, that return the Private Pages if the user is Signed in or navigate to the Home Page if he/she is not.
+* So in the PrivateProvider Component, we'll have something like this:
+```
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Outlet, Navigate } from 'react-router-dom'
+
+export default function PrivateRoute() {
+    /* <Outlet /> is the equivalent of {children} but is you want to set ti as a component, which is our case where we should return a whole component an it's the children that we're wrapping the PrivateProvider Component with. */
+    const { currentUser } = useSelector( (state) => state.user)
+    return currentUser ? <Outlet /> : (
+        <Navigate to='/sign-in' />
+    )
+}
+``` 
+* And for wrapping, we go to our App.jsx and set it:
+```
+<Route element={<PrivateRoute />}>
+    <Route path='/dashboard' element={<Dashboard />} />
+</Route>
+```
+
+## 8- Uploading Image
+Here we want to acheive these 3 thinigs, first is to choose an image just by clicking on the current image, second is to save the image and last is to have a sort of animation for uploading the image.
+### Choose the image
+1. Create a function for handling the image file
+2. Create an input of type file, that only choose image files
+```
+<input 
+    type='file' 
+    accept='image/*' 
+    onChange={handleImageChange} 
+/>
+```
+3. With the use of useRef, we can refere to this input whenever the user clicks on the image div
+    * Import the necessary Hook:
+    ```
+    import {useRef}  from 'react'
+    ```
+    * Refere to the input:
+    ```
+    <input 
+        type='file' 
+        accept='image/*' 
+        onChange={handleImageChange} 
+        ref={filePickerRef}
+    />
+    ```
+    * Set the div to refer to the input:
+    ```
+    <div onClick={() => {filePickerRef.current.click()}}>
+    ```
+4. Now because we can get to the input file just from the image, we can hide the input as whole using hidden attribute:
+```
+<input 
+    type='file' 
+    accept='image/*' 
+    onChange={handleImageChange} 
+    ref={filePickerRef}
+    hidden
+/>
+```
+### Save the image
+1. Firebase -> Got to console -> The Project you created -> Sidebar/build/Storage -> Get started -> Next -> Done 
+2. After everything is well set, you choose Rules in topbar to customize the allow and read rules
+    Examples: 
+    - size by **request.resource.size < 2 * 1024 * 1023**
+    - image type only by: **request.resuorce.contentType.matches('image/.*')**
+3. To use the storage we created in Firebase for the project, we need to use **getStorage** from firebase
+```
+import { getStorage } from 'firebase/storage'
+```
+2. Create the storage for our app, which means we'll need to import the app that we created earlier with the SDK Code got from firebase
+```
+import { app } from '../firebase'
+``` 
+&&
+```
+const storage = getStorage(app)
+```
+3. Make each image unique, so we can store same image multiple times. We can do that by using the current Date:
+```
+const fileName = new Date().getTime() + imageFile.name
+```
+4. To upload the image to the storage, we'll use uploadBytesResumable, which takes two attributes the storage Reference and the image File.
+    * For the Storage Reference, we can get it by the ref function and passin to it our created storage and the file name we set.
+    * For the imageFile, it's just the file that we're getting from the file input, we can use a useState to updated evertime a new image file is chosen.
+```
+const storageRef = ref(storage, fileName)
+const uploadTask = uploadBytesResumabl(storageRef, imageFile)
+```
+5. Now we turn on the uploading (uploadingTask), by using the on method, and setting the first attribute to 'state_changed', plus other methods used to get the job done. And ofcourse handling certain errors as well:
+```
+uploadTask.on(
+    'state_changed',
+    (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        setImageFileUploadingProgress(progress.toFixed(0))
+    },
+    (error) => {
+        setImageFileUploadingError('Could not upload image (File must be less than 2MB)')
+        setImageFileUploadingProgress(null)
+        setImageFileUrl(null)
+        setImageFile(null)
+    },
+    () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImageFileUrl(downloadURL)
+        })
+    }
+)
+```
+6. The whole code of handleImageChange is this:
+```
+const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file){
+        setImageFile(file)
+        setImageFileUrl(URL.createObjectURL(file))
+        }
+    }
+    useEffect(() => {
+        if(imageFile) {
+            uploadImage()
+        }
+    }, [imageFile])
+
+    // If you can check the type of the input before
+    const uploadImage = async () => {
+    setImageFileUploadingError(null)
+    const storage = getStorage(app)
+    const fileName = new Date().getTime() + imageFile.name
+    const storageRef = ref(storage, fileName)
+    const uploadTask = uploadBytesResumable(storageRef, imageFile)
+    uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            setImageFileUploadingProgress(progress.toFixed(0))
+        },
+        (error) => {
+            setImageFileUploadingError('Could not upload image (File must be less than 2MB)')
+            setImageFileUploadingProgress(null)
+            setImageFileUrl(null)
+            setImageFile(null)
+        },
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                setImageFileUrl(downloadURL)
+            })
+        }
+    )
+}
+```
+### Upload Animation
+For the uploading animation, we'll need to use a package named **React Circular Progressbar**
+1. First you should install the package:
+```
+npm install --save react-circular-progressbar
+```
+2. We're going to create the uploading animationg that is circalr so it surround the image. We will be using CircularProgressbar component from react circular progressbar:
+```
+import { CircularProgressbar } from 'react-circular-progressbar';
+```
+3. Add some animation after importing the styles directory:
+```
+import 'react-circular-progressbar/dist/styles.css';
+```
+```
+<CircularProgressbar 
+    value={imageFileUploadingProgress || 0} 
+    text={`${imageFileUploadingProgress}%`}
+    strokeWidth={5}
+    styles={{
+        root:{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+        },
+        path: {
+            stroke: `rgba(62, 152, 199, ${imageFileUploadingProgress / 100})`,
+        },
+
+    }}
+/>
+```
+
+
+
+

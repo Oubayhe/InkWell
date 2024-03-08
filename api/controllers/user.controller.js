@@ -45,7 +45,7 @@ const deleteUser = async (req, res, next) => {
         return next(errorHandler(403, 'You are not allowed to update this error'))
     }
     try {
-        await User.findByIdAndDelete(req, params.userId)
+        await User.findByIdAndDelete(req.params.userId)
         res.status(200).json('User has been deleted')
     } catch (error) {
         next(error)

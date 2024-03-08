@@ -7,5 +7,6 @@ const router = express.Router()
 router.get('/test', userControllers.test)
 router.put('/update/:userId', verifyToken, userControllers.updateUser)
 router.delete('/delete/:userId', verifyToken, userControllers.deleteUser)
+router.post('/signout', userControllers.signout)
 
 module.exports = router

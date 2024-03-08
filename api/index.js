@@ -4,6 +4,8 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const express = require('express')
 
+const cookieParser = require('cookie-parser')
+
 // Routes
 const userRoutes = require('./routes/user.route')
 const authRoutes = require('./routes/auth.route')
@@ -30,6 +32,8 @@ app.use((req, res, next) => {
 
 // For JSON
 app.use(express.json())
+// for identify the token
+app.use(cookieParser())
 
 // routes
 app.use('/api/user', userRoutes)

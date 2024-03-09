@@ -81,14 +81,14 @@ export default function CreatePost() {
                     size='sm'
                     outline
                     onClick={handleUploadImage}
-                    disabled={imageUploadProgress}
+                    disabled={(imageUploadProgress && ((imageUploadProgress / files.length) > 100))}
                 >
                     {
-                        imageUploadProgress ? 
+                        (imageUploadProgress && files.length > 0) ? 
                         <div className="w-16 h-16">
                             <CircularProgressbar 
                                 value={imageUploadProgress} 
-                                text={`${imageUploadProgress || 0}%`}
+                                text={`${(imageUploadProgress / files.length).toFixed(0) || 0}%`}
                             />
                         </div>
                         : 'Upload image'

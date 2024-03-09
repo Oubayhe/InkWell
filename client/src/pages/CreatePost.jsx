@@ -6,46 +6,53 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/st
 import { app } from '../firebase'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 export default function CreatePost() {
-    const [file, setFile] = useState(null)
+    const [files, setFiles] = useState({})
     const [imageUploadProgress, setImageUploadProgress] = useState(null)
     const [imageUploadError, setImageUploadError] = useState(null)
     const [formData, setFormData] = useState({})
+    const [images, setImages] = useState([])
+    
 
     const handleUploadImage = async () => {
-        try {
-            if(!file){
-                setImageUploadError('Please select an image')
-                return
-            }
-            setImageUploadError(null)
-            const storage = getStorage(app)
-            const fileName = new Date().getTime() + '-' + file.name
-            const storageRef = ref(storage, fileName)
-            const uploadTask = uploadBytesResumable(storageRef, file)
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    setImageUploadProgress(progress.toFixed(0))
-                },
-                (error) => {
-                    setImageUploadError('Image upload failed')
-                    setImageUploadProgress(null)
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setImageUploadError(null)
-                        setImageUploadProgress(null)
-                        setFormData({...formData, image: downloadURL})
-                    })
+        for (let i = 0; i < files.length; i++){
+            try {
+                if(!files[i]){
+                    setImageUploadError('Please select an image')
+                    return
                 }
-            )
-        } catch (error) {
-            setImageUploadError('Image upload failed')
-            setImageUploadProgress(null)
-            console.log(error)
+                setImageUploadError(null)
+                const storage = getStorage(app)
+                const fileName = new Date().getTime() + '-' + files[i].name
+                const storageRef = ref(storage, fileName)
+                const uploadTask = uploadBytesResumable(storageRef, files[i])
+                uploadTask.on(
+                    'state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                        setImageUploadProgress(progress.toFixed(0))
+                    },
+                    (error) => {
+                        setImageUploadError('Image upload failed')
+                        setImageUploadProgress(null)
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                            setImageUploadError(null)
+                            setImageUploadProgress(null)
+                            console.log(files[i].name)
+                            setImages(prevImages => [...prevImages, { url: downloadURL, caption: files[i].name }])
+                        })
+                    }
+                )
+            } catch (error) {
+                setImageUploadError('Image upload failed')
+                setImageUploadProgress(null)
+                console.log(error)
+            }
         }
     }
 
@@ -63,10 +70,11 @@ export default function CreatePost() {
             </div>
             <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
                 <FileInput 
-                    type='file' 
+                    multiple
                     accept='image/*' 
-                    onChange={(e) => setFile(e.target.files[0])} 
+                    onChange={(e) => setFiles(e.target.files)} 
                 />
+                {console.log(files)}
                 <Button 
                     type='button' 
                     gradientDuoTone='purpleToBlue' 
@@ -92,12 +100,22 @@ export default function CreatePost() {
                     {imageUploadError}
                 </Alert>
             )}
-            {formData.image && (
-                <img 
-                    src={formData.image}
-                    alt='uploaded image'
-                    className='w-full h-72 object-cover'
-                />
+            {images && (
+                <div className="w-full h-auto">
+                    {images.map((image, index) => {
+                        return (
+                            <img 
+                            key={index}
+                            src={image.url}
+                            alt={image.caption}
+                            className='w-full h-72 object-cover'
+                        /> 
+                        )                       
+                    })}
+                </div>
+                // console.log(images)
+
+                
             )}
             <ReactQuill theme='snow'  placeholder='Describe your trip...' className='h-72 mb-12' />
             <Button type='submit' gradientDuoTone='purpleToPink'>

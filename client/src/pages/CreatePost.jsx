@@ -8,13 +8,14 @@ import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
+import SlideImages from '../components/SlideImages';
 
 export default function CreatePost() {
     const [files, setFiles] = useState({})
     const [imageUploadProgress, setImageUploadProgress] = useState(null)
     const [imageUploadError, setImageUploadError] = useState(null)
     const [formData, setFormData] = useState({})
-    const [images, setImages] = useState([])
+    const [images, setImages] = useState([{url: "./images/essaouira.jpeg", caption: 'image 1'}, {url: "../assets/images/test1image.bmp", caption: 'image 2'}])
     
 
     const handleUploadImage = async () => {
@@ -33,7 +34,7 @@ export default function CreatePost() {
                     'state_changed',
                     (snapshot) => {
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                        setImageUploadProgress(progress.toFixed(0))
+                        setImageUploadProgress(((progress / files.length) * (i+1)))
                     },
                     (error) => {
                         setImageUploadError('Image upload failed')
@@ -81,14 +82,14 @@ export default function CreatePost() {
                     size='sm'
                     outline
                     onClick={handleUploadImage}
-                    disabled={(imageUploadProgress && ((imageUploadProgress / files.length) > 100))}
+                    disabled={imageUploadProgress}
                 >
                     {
                         (imageUploadProgress && files.length > 0) ? 
                         <div className="w-16 h-16">
                             <CircularProgressbar 
                                 value={imageUploadProgress} 
-                                text={`${(imageUploadProgress / files.length).toFixed(0) || 0}%`}
+                                text={`${imageUploadProgress.toFixed(0) || 0}%`}
                             />
                         </div>
                         : 'Upload image'
@@ -101,18 +102,7 @@ export default function CreatePost() {
                 </Alert>
             )}
             {images && (
-                <div className="w-full h-auto">
-                    {images.map((image, index) => {
-                        return (
-                            <img 
-                            key={index}
-                            src={image.url}
-                            alt={image.caption}
-                            className='w-full h-72 object-cover'
-                        /> 
-                        )                       
-                    })}
-                </div>
+                <SlideImages images={images} />
                 // console.log(images)
 
                 

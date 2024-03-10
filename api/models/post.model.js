@@ -1,5 +1,16 @@
 const mongoose = require('mongoose')
 
+const imageSchema = new mongoose.Schema({
+    url: {
+        type: String,
+        required: true
+    },
+    caption: {
+        type: String,
+        required: true
+    }
+})
+
 const postSchema = new mongoose.Schema(
     {
         userId: {
@@ -14,9 +25,12 @@ const postSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        image: {
-            type: String,
-            default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvOhjemRGwgin-OfscF_9897HTfaTECNz3CA&usqp=CAU',
+        images: {
+            type: [imageSchema],
+            default: [{
+                url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvOhjemRGwgin-OfscF_9897HTfaTECNz3CA&usqp=CAU',
+                caption: 'default-image'
+            }],
         },
         category: {
             type: String,

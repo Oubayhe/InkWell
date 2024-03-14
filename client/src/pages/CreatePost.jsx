@@ -6,8 +6,6 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/st
 import { app } from '../firebase'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
-import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css'
 import SlideImages from '../components/SlideImages';
 
 export default function CreatePost() {
@@ -15,7 +13,7 @@ export default function CreatePost() {
     const [imageUploadProgress, setImageUploadProgress] = useState(null)
     const [imageUploadError, setImageUploadError] = useState(null)
     const [formData, setFormData] = useState({})
-    const [images, setImages] = useState([{url: "./images/essaouira.jpeg", caption: 'image 1'}, {url: "../assets/images/test1image.bmp", caption: 'image 2'}])
+    const [images, setImages] = useState([])
     
 
     const handleUploadImage = async () => {
@@ -57,12 +55,13 @@ export default function CreatePost() {
         }
     }
 
+
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
         <h1 className='text-center text-3xl my-7 font-semibold'>Create a post</h1>
         <form action="" className="flex flex-col gap-4">
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
-                <TextInput type='text' placeholder='Title' required id='title' className='flex-1' />
+                <TextInput type='text' placeholder='Title' id='title' className='flex-1' required />
                 <Select>
                     <option value="uncategorized">Select a category</option>
                     <option value="organized_vecation">Organized vecation</option>
@@ -101,7 +100,7 @@ export default function CreatePost() {
                     {imageUploadError}
                 </Alert>
             )}
-            {images && (
+            {images.length > 0 && (
                 <SlideImages images={images} />
                 // console.log(images)
 

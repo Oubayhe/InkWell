@@ -8,9 +8,11 @@ export default function SlideImages({images}) {
         <Carousel pauseOnHover>
         {images.map((image, index) => {
         return (
-          <div className="flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700 ">
+          <div 
+            key={index}
+            className="flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700"
+          >
             <img 
-                key={index}
                 src={image.url}
                 alt={image.caption}
                 className='h-full w-full object-contain'

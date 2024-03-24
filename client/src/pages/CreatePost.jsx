@@ -1,5 +1,5 @@
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
@@ -14,7 +14,30 @@ export default function CreatePost() {
     const [imageUploadError, setImageUploadError] = useState(null)
     const [formData, setFormData] = useState({})
     const [images, setImages] = useState([])
+    const [publishError, setPublishError] = useState(null)
     
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const res = await fetch('/api/post/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            const data = await res.json()
+            if (!res.ok) {
+                setPublishError(data.message)
+                return
+            }
+            if (res.ok) {
+                setPublishError(null)
+            }
+        } catch (error) {
+            setPublishError('Something went wrong')
+        }
+    }
 
     const handleUploadImage = async () => {
         for (let i = 0; i < files.length; i++){
@@ -42,7 +65,6 @@ export default function CreatePost() {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                             setImageUploadError(null)
                             setImageUploadProgress(null)
-                            console.log(files[i].name)
                             setImages(prevImages => [...prevImages, { url: downloadURL, caption: files[i].name }])
                         })
                     }
@@ -55,14 +77,29 @@ export default function CreatePost() {
         }
     }
 
+    useEffect(() => {
+        setFormData(prevFormData => ({...prevFormData, images: images}));
+    }, [images])
+
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
         <h1 className='text-center text-3xl my-7 font-semibold'>Create a post</h1>
-        <form action="" className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
-                <TextInput type='text' placeholder='Title' id='title' className='flex-1' required />
-                <Select>
+                <TextInput 
+                    type='text' 
+                    placeholder='Title' 
+                    id='title' 
+                    className='flex-1' 
+                    required 
+                    onChange={(e) => 
+                        setFormData({...formData, title: e.target.value})
+                    }
+                />
+                <Select
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                >
                     <option value="uncategorized">Select a category</option>
                     <option value="organized_vecation">Organized vecation</option>
                     <option value="travel_buddies">Travel Buddies</option>
@@ -74,7 +111,6 @@ export default function CreatePost() {
                     accept='image/*' 
                     onChange={(e) => setFiles(e.target.files)} 
                 />
-                {console.log(files)}
                 <Button 
                     type='button' 
                     gradientDuoTone='purpleToBlue' 
@@ -102,14 +138,24 @@ export default function CreatePost() {
             )}
             {images.length > 0 && (
                 <SlideImages images={images} />
-                // console.log(images)
-
-                
             )}
-            <ReactQuill theme='snow'  placeholder='Describe your trip...' className='h-72 mb-12' />
+            <ReactQuill 
+                theme='snow'  
+                placeholder='Describe your trip...' 
+                className='h-72 mb-12' 
+                required
+                onChange={(value) => {
+                    setFormData({...formData, content: value})
+                }}
+            />
             <Button type='submit' gradientDuoTone='purpleToPink'>
                 Publish
             </Button>
+            { publishError && 
+                <Alert color="failure" className="mt-5">
+                    {publishError}
+                </Alert>
+            }
         </form>
     </div>
   )

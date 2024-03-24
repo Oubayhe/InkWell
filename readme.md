@@ -582,6 +582,6 @@ import 'react-circular-progressbar/dist/styles.css';
 />
 ```
 
-
-
-
+# To write about:
+- verifyToken
+- postRoutes

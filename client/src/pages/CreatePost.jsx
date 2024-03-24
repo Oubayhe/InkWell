@@ -139,6 +139,12 @@ export default function CreatePost() {
             {images.length > 0 && (
                 <SlideImages images={images} />
             )}
+            {
+                ((files.length > 0) && (files.length != images.length)) &&
+                <Alert color="warning">
+                    You need to uplaod the images after selecting them.
+                </Alert>
+            }
             <ReactQuill 
                 theme='snow'  
                 placeholder='Describe your trip...' 
@@ -148,7 +154,11 @@ export default function CreatePost() {
                     setFormData({...formData, content: value})
                 }}
             />
-            <Button type='submit' gradientDuoTone='purpleToPink'>
+            <Button 
+                type='submit' 
+                gradientDuoTone='purpleToPink'
+                disabled={(files.length > 0) && (files.length != images.length)}
+            >
                 Publish
             </Button>
             { publishError && 

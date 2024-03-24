@@ -7,6 +7,7 @@ import { app } from '../firebase'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import SlideImages from '../components/SlideImages';
+import { useNavigate } from 'react-router-dom'
 
 export default function CreatePost() {
     const [files, setFiles] = useState({})
@@ -15,6 +16,8 @@ export default function CreatePost() {
     const [formData, setFormData] = useState({})
     const [images, setImages] = useState([])
     const [publishError, setPublishError] = useState(null)
+    const navigate = useNavigate()
+
     
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -33,6 +36,7 @@ export default function CreatePost() {
             }
             if (res.ok) {
                 setPublishError(null)
+                navigate(`/post/${data.slug}`)
             }
         } catch (error) {
             setPublishError('Something went wrong')

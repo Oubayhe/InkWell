@@ -190,7 +190,7 @@ In the example above, we can see that we're selecting the loading and error valu
 const { currentUser } = useSelector(state => state.user)
 ```
 
-# 4- Redux Persist
+## 4- Redux Persist
 We use redux persist to save the last current state of the pages even if the react app was refreshed. So in the example above of the state of the sign in of the user, we wouldn't know what was the last state if the user just refershed the page, so it would go to the initial state, but in the case of Redux persist, we would even if the page was refreshed.
 * How to use it:
     - Install redux persist:
@@ -585,3 +585,51 @@ import 'react-circular-progressbar/dist/styles.css';
 # To write about:
 - verifyToken
 - postRoutes
+- Get Posts API Route
+    * Why use limit, startIndex...
+
+## 9- Posts (Create, Get, ):
+For the post sections, we're going to perform the CRUD opperations on them as well. So we need to start by the database Post model.
+### Post Model:
+Now for each post there these 4 characteristics:
+    - Title
+    - Content
+    - Category
+    - Images
+For our case, each post is an explenation of a trip, so we'll need many images for better clarity. Meaning, different cities or places or view... equal different images.
+There for we'll need within the **post model** an **image model**, and to keep it simple it's just the **image url and its caption**.
+So the images in the post model is an array of the image model.
+We're also adding **slug** and **userId** to the post model, slug is just another way of uniqueness and we added to put it the path, instead of the id of the post.
+So in conclusion, this is how the post model should have:
+    - slug: string & unique & required
+    - userId: string & required
+    - title: string & required
+    - content: string & required
+    - category: string with a default value
+    - images: array(image (url: string & required, caption: string & required)) with a default value
+### Create Post
+To create a post, we need to make sure that all the required attributes are prepared (title, content, slug and userId):
+* For the title and content, are required from the user along with the images and category that have a default value incase of lacking any of thier inputs.
+* For the slug, as we said is just another way of having uniqueness in for each post, and to do that, we set every slug to be the post'title plus the date (seconds from the beginning until now) plus the user's username.
+```
+const unique = new Date().getTime() + '_' + req.user.username 
+const slug = req.body.title.split(' ').join('_').toLowerCase().replace(/[^a-zA-Z0-9_]/g, '') + unique 
+```
+* For the user'id, we'll need to make sure that it's the actualle user (exicting of the user and verification of the token)
+    - To get th user's id, we just use the req, cause we ther user information are always available (except the password for security)
+    - For the token verification:
+    ```
+    const verifyToken = (req, res, next) => {
+        const token = req.cookies.access_token
+        if (!token) {
+            return next(errorHandler(401, "Unauthorized"))
+        }
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+            if(err) {
+                return next(errorHandler(401, 'Unauthorized'))
+            }
+            req.user = user
+            next()
+        })
+    }
+    ```

@@ -633,3 +633,63 @@ const slug = req.body.title.split(' ').join('_').toLowerCase().replace(/[^a-zA-Z
         })
     }
     ```
+### Get Posts:
+First we set our Get route in the post route file. 
+* In the Get Post controller, we don't need to verify the Token (make sure that the user is logged in and he/she is the actual one).
+```
+router.get('/getposts',  postController.getPost)
+```
+* Now let's create the getPosts controller:
+    - We know that we'll need to reponde by various amount of posts based on the situation, so we need a **startIndex** from where exactly we're going to start gathering posts to send, and a **limit** of the number tha need to gether before stopping.
+    ```
+    const startIndex = parseInt(req.query.startIndex) || 0
+        const limit = parseInt(req.query.limit) || 9
+    ```
+    - We can add sort direction, so the user can have some sort of filtering the sorting:
+    ```
+    const sortDirection = ((req.query.order === 'asc') ? 1 : -1)
+    ```
+    - Then, we need to actually get the Posts, by simply getting the all the posts or filtering them by category, slug, postId, userId, searchTerm which can be any string that might exists in the title or the content:
+    ```
+    const posts = await Post.find({
+            ...(req.query.userId && { userId: req.query.userId }),
+            ...(req.query.category && { category: req.query.category }),
+            ...(req.query.slug && { slug: req.query.slug }),
+            ...(req.query.postId && { _id: req.query.postId }),
+            ...(req.query.searchTerm && { 
+                $or: [
+                    { title: {$regex: req.query.searchTerm, $options: 'i' }},
+                    { content: {$regex: req.query.searchTerm, $options: 'i' }},
+                ],
+            }),
+        }).sort({ updatedAt: sortDirection }).skip(startIndex).limit(limit)
+    ```
+    - We also need additional data to be sent, which the total amount of Posts and last Month posts. For the total amount, we just count what we have in the Post model in the database. And for the last month posts, we just get the posts that were created in or after the first day of last month, and this last month is always changing based on the day.
+    ```
+    const now = new Date()
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDate()
+        )
+        const lastMonthPosts = await Post.countDocuments({
+            createdAt: { $gte: oneMonthAgo }
+        })
+    ```
+    - Last thing we send the json data:
+    ```
+    res.status(200).json({
+            posts, 
+            totalPosts,
+            lastMonthPosts,
+        })
+    ```
+The whole code is written within a try catch statement. And in the catch part, we're using next method to pass the error, if it occurred:
+```
+catch (error) {
+        next(error)
+    }
+```
+### Displaying Posts:
+To display the posts in */dashboard?tab=posts* we've installed a plugin named **tailwind-scrollbar**. And we used the Table component from flowbite, which has many sub-components that facilitate the process **Table.Head**, **Table.HeadCell**, **Table.Body** and **Table.Cell**., plus Link component.
+

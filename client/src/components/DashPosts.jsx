@@ -40,7 +40,10 @@ export default function DashPosts() {
           </Table.Head>
           <Table.Body className='divide-y'>
           {userPosts.map((post) => { return(
-            <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+            <Table.Row 
+              key = {post._id}
+              className='bg-white dark:border-gray-700 dark:bg-gray-800'
+            >
               {/* Here below we're using Date, but in the React or Mern TODO app of net ninja, we've used a package that returns the date as "2days ago"... Look for it. */}
               <Table.Cell> 
                 {(new Date(post.updatedAt)).toLocaleDateString() } 

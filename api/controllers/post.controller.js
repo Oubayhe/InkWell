@@ -7,6 +7,15 @@ const createPost = async (req, res, next) => {
     if (!req.body.title || !req.body.content) {
         return next(errorHandler(400, 'Please provide all required fields'))
     }
+
+    // Set default images if images array is not provided in the request
+    if (req.body.images.length == 0) {
+        req.body.images = [{
+            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvOhjemRGwgin-OfscF_9897HTfaTECNz3CA&usqp=CAU',
+            caption: 'default-image'
+        }];
+    }
+
     const unique = new Date().getTime() + '_' + req.user.username 
     const slug = req.body.title.split(' ').join('_').toLowerCase().replace(/[^a-zA-Z0-9_]/g, '') + unique 
     console.log(req.user)

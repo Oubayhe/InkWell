@@ -27,10 +27,6 @@ const postSchema = new mongoose.Schema(
         },
         images: {
             type: [imageSchema],
-            default: [{
-                url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvOhjemRGwgin-OfscF_9897HTfaTECNz3CA&usqp=CAU',
-                caption: 'default-image'
-            }],
         },
         category: {
             type: String,

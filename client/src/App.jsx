@@ -10,6 +10,7 @@ import Header from './components/Header'
 import FooterCom from './components/FooterCom'
 import PrivateRoute from './components/PrivateRoute'
 import CreatePost from './pages/CreatePost'
+import UpdatePost from './pages/UpdatePost'
 
 const App = () => {
   return (
@@ -22,7 +23,8 @@ const App = () => {
         <Route path='/sign-up' element={<Singup />} />
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/dashboard/create-post' element={<CreatePost />} />
+          <Route path='/create-post' element={<CreatePost />} />
+          <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
         <Route path='/projects' element={<Projects />} />
       </Routes>

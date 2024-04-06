@@ -8,6 +8,7 @@ import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import SlideImages from '../components/SlideImages';
 import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 export default function UpdatePost() {
     const [files, setFiles] = useState({})
@@ -18,6 +19,8 @@ export default function UpdatePost() {
     const [publishError, setPublishError] = useState(null)
     const { postId } = useParams()
     const navigate = useNavigate()
+    const { currentUser } = useSelector((state) => state.user)
+    const [numberImgBeforeUpdating, setNumbermberImgBeforeUpdating] = useState(0)
 
     useEffect(() => {
         try {
@@ -33,7 +36,7 @@ export default function UpdatePost() {
                     setPublishError(null)
                     setFormData(data.posts[0])
                     setImages(data.posts[0].images)
-                    // console.log(data.posts[0])
+                    setNumbermberImgBeforeUpdating(data.posts[0].images.length)
                 }}
             
             fetchPost()
@@ -46,8 +49,8 @@ export default function UpdatePost() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await fetch('/api/post/create', {
-                method: 'POST',
+            const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -112,6 +115,7 @@ export default function UpdatePost() {
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
+        {console.log(images, files, numberImgBeforeUpdating)}
         <h1 className='text-center text-3xl my-7 font-semibold'>Create a post</h1>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
@@ -170,7 +174,7 @@ export default function UpdatePost() {
                 <SlideImages images={images} />
             )}
             {
-                ((files.length > 0) && (files.length != images.length)) &&
+                ((files.length > 0) && (files.length != (images.length - numberImgBeforeUpdating))) &&
                 <Alert color="warning">
                     You need to uplaod the images after selecting them.
                 </Alert>
@@ -188,7 +192,7 @@ export default function UpdatePost() {
             <Button 
                 type='submit' 
                 gradientDuoTone='purpleToPink'
-                disabled={(files.length > 0) && (files.length != images.length)}
+                disabled={(files.length > 0) && (files.length != (images.length - numberImgBeforeUpdating))}
             >
                 Update post
             </Button>

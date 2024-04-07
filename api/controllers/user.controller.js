@@ -1,6 +1,7 @@
 const errorHandler = require("../utils/error")
 const bcryptjs = require('bcryptjs')
 const User = require('../models/user.model')
+const { countDocuments } = require("../models/post.model")
 
 const test = (req, res) => {
     res.json({ msg: 'api is working using Controllers' })
@@ -60,9 +61,47 @@ const signout = (req, res, next) => {
     }
 }
 
+const getUsers = async (req, res, next) => {
+    try {
+        const startIndex = parseInt(req.query.startIndex) || 0
+        const limit = parseInt(req.query.limit) || 9
+        const sortDirection = req.query.sort === 'asc' ? 1 : -1
+
+        const users = await User.find()
+            .sort({ createdAt: sortDirection })
+            .skip(startIndex)
+            .limit(limit)
+        
+        const usersWithoutPassword = users.map((user) => {
+            const { password, ...rest } = user._doc
+            return rest
+        })
+
+        res.status(200).json(usersWithoutPassword)
+        const totalUsers = await User.countDocuments()
+        const now = new Date()
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDate()
+        )
+        const lastMonthUsers = await User.countDocuments({
+            createdAt: { $gte: oneMonthAgo }
+        })
+        res.status(200).json ({
+            users: usersWithoutPassword,
+            totalUsers,
+            lastMonthUsers,
+        })
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     test,
     updateUser,
     deleteUser,
     signout,
+    getUsers,
 }

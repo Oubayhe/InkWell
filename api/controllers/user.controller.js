@@ -77,7 +77,6 @@ const getUsers = async (req, res, next) => {
             return rest
         })
 
-        res.status(200).json(usersWithoutPassword)
         const totalUsers = await User.countDocuments()
         const now = new Date()
         const oneMonthAgo = new Date(
@@ -94,7 +93,7 @@ const getUsers = async (req, res, next) => {
             lastMonthUsers,
         })
     } catch (error) {
-        
+        next(error)
     }
 }
 

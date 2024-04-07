@@ -171,7 +171,9 @@ export default function UpdatePost() {
                 </Alert>
             )}
             {images.length > 0 && (
-                <SlideImages images={images} />
+                <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+                    <SlideImages images={images} />
+                </div>
             )}
             {
                 ((files.length > 0) && (files.length != (images.length - numberImgBeforeUpdating))) &&

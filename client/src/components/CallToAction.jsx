@@ -8,10 +8,10 @@ export default function CallToAction() {
     rounded-tl-3xl text-center">
         <div className='flex-1 justify-center flex flex-col'>
             <h2 className='text-2xl'>
-                Want to know places where you can Hicke in Morocco
+                Want to know places where you can Hike in Morocco
             </h2>
             <p className='text-gray-500 my-2'>
-                Checkout this map of over 50 best places for Hicking in Morocco
+                Checkout this map of over 50 best places for Hiking in Morocco
             </p>
             <Button>
                 <a 
@@ -19,7 +19,7 @@ export default function CallToAction() {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    Discover where to Hicke
+                    Discover where to Hike
                 </a>
             </Button>
         </div>

@@ -9,5 +9,6 @@ router.put('/update/:userId', verifyToken, userControllers.updateUser)
 router.delete('/delete/:userId', verifyToken, userControllers.deleteUser)
 router.post('/signout', userControllers.signout)
 router.get('/getusers', verifyToken, userControllers.getUsers)
+router.get('/getuser/:userId', userControllers.getUser)
 
 module.exports = router

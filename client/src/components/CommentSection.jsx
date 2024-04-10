@@ -1,7 +1,7 @@
 import { Alert, Button, TextInput, Textarea } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Comment from './Comment'
 
 export default function CommentSection({postId}) {
@@ -9,6 +9,7 @@ export default function CommentSection({postId}) {
     const [comment, setComment] = useState('')
     const [commentError, setCommentError] = useState(null)
     const [comments, setComments] = useState([])
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
       e.preventDefault()
@@ -54,6 +55,35 @@ export default function CommentSection({postId}) {
       }
       getComments()
     }, [postId])
+
+    const handleLike = async (commentId) => {
+      try {
+        if (!currentUser) {
+          navigate('/sign-in')
+          return
+        }
+        const res = await fetch(`/api/comment/likeComment/${commentId}`, 
+        {
+          method: 'PUT',
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setComments(comments.map((commentItem) => {
+            return (commentItem._id === commentId ? (
+              {...commentItem, 
+              likes: data.likes, 
+              numberOfLikes: data.numberOfLikes}
+            ) : (
+              commentItem
+            ))
+          }))
+        }
+
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
       {currentUser ? 
@@ -119,8 +149,12 @@ export default function CommentSection({postId}) {
               <p> {comments.length} </p>
             </div>
           </div>
-          {comments.map((comment) => {
-            return <Comment key={comment._id} comment={comment} />
+          {comments.map((commentItem) => {
+            return <Comment 
+              key={commentItem._id} 
+              comment={commentItem} 
+              onLike={handleLike} 
+            />
           })}
         </>
       ) : (

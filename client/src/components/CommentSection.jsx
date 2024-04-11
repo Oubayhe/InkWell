@@ -84,6 +84,14 @@ export default function CommentSection({postId}) {
       }
     }
 
+    const handleEdit = async(commentId, editedContent) => {
+      setComments(
+        comments.map((commentItem) => {
+          return commentItem._id === commentId ? {...commentItem, content: editedContent} : commentItem
+        })
+      )
+    }
+
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
       {currentUser ? 
@@ -154,6 +162,7 @@ export default function CommentSection({postId}) {
               key={commentItem._id} 
               comment={commentItem} 
               onLike={handleLike} 
+              onEdit={handleEdit}
             />
           })}
         </>

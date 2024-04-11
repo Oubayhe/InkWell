@@ -92,6 +92,10 @@ export default function CommentSection({postId}) {
       )
     }
 
+    const handleDelete = async(commentId) => {
+      setComments(comments.filter((comment) => comment._id !== commentId))
+    }
+
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
       {currentUser ? 
@@ -163,6 +167,7 @@ export default function CommentSection({postId}) {
               comment={commentItem} 
               onLike={handleLike} 
               onEdit={handleEdit}
+              onDelete={handleDelete}
             />
           })}
         </>

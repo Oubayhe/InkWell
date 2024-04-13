@@ -26,10 +26,10 @@ const App = () => {
         <Route path='/sign-up' element={<Singup />} />
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/create-post' element={<CreatePost />} />
+          <Route path='/dashboard/create-post' element={<CreatePost />} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
-        <Route path='/projects' element={<Projects />} />
+        <Route path='/posts' element={<Projects />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
       </Routes>
       <FooterCom />

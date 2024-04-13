@@ -6,6 +6,8 @@ import { FaMoon, FaSun } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleTheme } from '../redux/theme/themeSlice'
 import { signoutSuccess } from '../redux/user/userSlice'
+import { FaPencilAlt } from "react-icons/fa";
+
 
 
 const Header = () => {
@@ -32,25 +34,22 @@ const Header = () => {
 
   return (
     <Navbar className='border-b-2'>
-        <Link to="/" className='self-center whitespace-nowrap text-sm 
+        <Link to="/" className='pacificoFont flex items-center gap-2 self-center whitespace-nowrap text-sm 
         sm:text-xl font-semibold dark:text-white'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purpel-500 to-pink-500 rounded-lg text-white'>Travel</span>
-            Together
+            <FaPencilAlt />
+            InkWell
         </Link>
-        <form>
+        <form className='w-2/5'>
             <TextInput
                 type="text"
                 placeholder="Search..."
                 rightIcon={AiOutlineSearch}
-                className='hidden lg:inline'
+                className=''
             />
         </form>
-        <Button className='w-12 h-10 lg:hidden' color='gray' pill>
-            <AiOutlineSearch />
-        </Button>
         <div className='flex gap-2 md:order-2'>
             <Button 
-                className="w-12 h-10 hidden sm:inline" 
+                className="w-10 h-10" 
                 color='gray' 
                 pill
                 onClick={()=> { dispatch(toggleTheme()) }}
@@ -102,8 +101,8 @@ const Header = () => {
             <Navbar.Link active={path.pathname === "/about"} as={'div'}>
                 <Link to="/about">About</Link>
             </Navbar.Link>
-            <Navbar.Link active={path.pathname === "/projects"} as={'div'}>
-                <Link to="/projects">Projects</Link>
+            <Navbar.Link active={path.pathname === "/posts"} as={'div'}>
+                <Link to="/posts">Posts</Link>
             </Navbar.Link>
         </Navbar.Collapse>
     </Navbar>

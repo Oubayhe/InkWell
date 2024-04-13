@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice'
 import OAuth from '../components/OAuth'
+import { FaPencilAlt } from "react-icons/fa";
 
 const Signup = () => {
   const [formData, setFormData] = useState({})
@@ -52,12 +53,14 @@ const Signup = () => {
           <div className='flex-1'>
             <Link 
               to="/" 
-              className='font-bold dark:text-white text-4xl'>
-              <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purpel-500 to-pink-500 rounded-lg text-white'>Travel</span>
-              Together
+              className='flex items-center gap-2 font-bold dark:text-white text-4xl pacificoFont'>
+              {/* <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purpel-500 to-pink-500 rounded-lg text-white'>Travel</span>
+              Together */}
+              <FaPencilAlt />
+              InkWell
             </Link>
             <p className='text-sm mt-5'>
-              Travel Together helps you find organized trips around the kingdom and the world, Sign In to discover more.
+            Inkwell is for sharing your thoughts, experiences, and expertise. Join a diverse community of writers and thinkers, where every word penned enriches the tapestry of knowledge and creativity
             </p>
           </div>
           {/* right */}
@@ -81,7 +84,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
               </div>
-              <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
+              <Button gradientDuoTone='purpleToBlue' type='submit' disabled={loading}>
                 {
                   loading ? (
                     <>

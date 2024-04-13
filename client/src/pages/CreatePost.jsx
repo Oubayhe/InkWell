@@ -18,6 +18,32 @@ export default function CreatePost() {
     const [publishError, setPublishError] = useState(null)
     const navigate = useNavigate()
 
+    // List of all categories:
+    const categories = [
+        "Creative Writing",
+        "Personal Development",
+        "Travel",
+        "Lifestyle",
+        "Food and Cooking",
+        "Technology",
+        "Arts and Crafts",
+        "Photography",
+        "Education",
+        "Environment and Sustainability",
+        "Parenting",
+        "Relationships",
+        "Finance",
+        "Career and Business",
+        "Science and Nature",
+        "History and Culture",
+        "Entertainment",
+        "Sports and Fitness",
+        "Philosophy and Religion",
+        "Current Events and News Analysis"
+    ];
+
+    
+
     
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -104,9 +130,9 @@ export default function CreatePost() {
                 <Select
                     onChange={(e) => setFormData({...formData, category: e.target.value})}
                 >
-                    <option value="uncategorized">Select a category</option>
-                    <option value="organized_vecation">Organized vecation</option>
-                    <option value="travel_buddies">Travel Buddies</option>
+                    {categories.map((categoryItem) => {
+                        return <option key={categories.indexOf(categoryItem)} value={categoryItem}>{categoryItem}</option>
+                    })}
                 </Select>
             </div>
             <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
@@ -117,7 +143,7 @@ export default function CreatePost() {
                 />
                 <Button 
                     type='button' 
-                    gradientDuoTone='purpleToBlue' 
+                    gradientDuoTone='cyanToBlue' 
                     size='sm'
                     outline
                     onClick={handleUploadImage}
@@ -162,7 +188,7 @@ export default function CreatePost() {
             />
             <Button 
                 type='submit' 
-                gradientDuoTone='purpleToPink'
+                gradientDuoTone='purpleToBlue'
                 disabled={(files.length > 0) && (files.length != images.length)}
             >
                 Publish

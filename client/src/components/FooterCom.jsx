@@ -2,6 +2,7 @@ import { Footer } from 'flowbite-react'
 import { Link } from 'react-router-dom' 
 import React from 'react'
 import { BsFacebook, BsInstagram, BsGithub, BsTwitterX, BsLinkedin } from 'react-icons/bs'
+import { FaPencilAlt } from "react-icons/fa";
 
 export default function FooterCom() {
   return (
@@ -9,10 +10,10 @@ export default function FooterCom() {
         <div className="w-full max-w-7xl mx-auto">
             <div className="grid w-full justify-between sm:flex md:grid-cols-1">
               <div className="mt-5">
-                <Link to="/" className='self-center whitespace-nowrap text-lg 
-                  sm:text-xl font-semibold dark:text-white'>
-                  <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purpel-500 to-pink-500 rounded-lg text-white'>Travel</span>
-                  Together
+                <Link to="/" className='pacificoFont flex items-center gap-2 self-center whitespace-nowrap text-lg 
+                  sm:text-3xl font-semibold dark:text-white'>                  
+                  <FaPencilAlt />
+                  InkWell
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6">
@@ -20,14 +21,14 @@ export default function FooterCom() {
                   <Footer.Title title='About' />
                   <Footer.LinkGroup col >
                     <Footer.Link 
-                      href='https://www.google.com' 
+                      href='https://github.com/Oubayhe' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
                       Otmane Oubayhe Portfolio
                     </Footer.Link>
                     <Footer.Link 
-                      href='https://www.google.com' 
+                      href='https://github.com/Oubayhe/travel_together' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
@@ -41,14 +42,14 @@ export default function FooterCom() {
                   <Footer.Title title='Follow us' />
                   <Footer.LinkGroup col >
                     <Footer.Link 
-                      href='https://www.github.com' 
+                      href='https://github.com/Oubayhe' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
                       GitHub
                     </Footer.Link>
                     <Footer.Link 
-                      href='https://www.instagram.com' 
+                      href='https://www.instagram.com/oubayheot/' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
@@ -60,14 +61,14 @@ export default function FooterCom() {
                   <Footer.Title title='Legal' />
                   <Footer.LinkGroup col >
                     <Footer.Link 
-                      href='https://www.github.com' 
+                      href='https://github.com/Oubayhe/travel_together' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
                       Privacy Policy
                     </Footer.Link>
                     <Footer.Link 
-                      href='https://www.instagram.com' 
+                      href='https://github.com/Oubayhe/travel_together' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
@@ -80,7 +81,7 @@ export default function FooterCom() {
             <Footer.Divider />
             <div className='w-full sm:flex sm:items-center sm:justify-between'>
               <Footer.Copyright 
-                href='#' 
+                href='https://github.com/Oubayhe' 
                 by="Oubayhe Otmane" 
                 year={new Date().getFullYear()} 
               />
@@ -96,7 +97,7 @@ export default function FooterCom() {
                   icon={BsGithub} 
                 />
                 <Footer.Icon  
-                  href='https://github.com/Oubayhe' 
+                  href='https://www.instagram.com/oubayheot/' 
                   target='_blank' 
                   icon={BsInstagram} 
                 />
@@ -106,7 +107,7 @@ export default function FooterCom() {
                   icon={BsTwitterX} 
                 />
                 <Footer.Icon  
-                  href='https://github.com/Oubayhe' 
+                  href='https://www.facebook.com/profile.php?id=100016250447001' 
                   target='_blank' 
                   icon={BsFacebook} 
                 />

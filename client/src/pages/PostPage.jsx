@@ -10,6 +10,9 @@ export default function PostPage() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [post, setPost] = useState(null)
+    const [postWriter, setPostWriter] = useState(null)
+    const [userId, setUserId] = useState(null)
+    
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -24,7 +27,6 @@ export default function PostPage() {
                 }
                 if (res.ok) {
                     setPost(data.posts[0])
-                    setLoading(false)
                 }
             } catch (error) {
                 setError(true)
@@ -33,6 +35,29 @@ export default function PostPage() {
         }
         fetchPost()
     }, [postSlug])
+
+    useEffect(() => {
+        const fetchPostWriter = async () => {
+            try {
+                const res = await fetch(`/api/user/getuser/${post.userId}`)
+                const data = await res.json()
+                if (!res.ok) {
+                    setError(true)
+                    setLoading(false)
+                    return
+                }
+                if (res.ok) {
+                    console.log(data)
+                    setPostWriter(data)
+                    setLoading(false)
+                }
+            } catch (error) {
+                setError(true)
+                setLoading(false)
+            }
+        }
+        fetchPostWriter()
+    }, [post])
 
     if (loading) return (
         <div className="flex justify-center items-center min-h-screen">
@@ -51,8 +76,22 @@ export default function PostPage() {
         >
             <Button color='gray' pill size='xs'> {post && post.category} </Button>
         </Link>
+        {postWriter &&
+        (<Link
+            to={`search?userId=${post && post.userId}`}
+        >
+            {console.log(postWriter)}
+            <div className='flex justify-center items-center mt-4 gap-2'>
+                <img 
+                    src={postWriter.profilePicture}
+                    alt={postWriter.username}
+                    className='w-8 h-8 object-cover rounded-full'
+                />
+                <p>{postWriter.username}</p>
+            </div>
+        </Link>)}
         {post && (
-            <div className="mt-10 p-3 h-72 sm:h-64 xl:h-80 2xl:h-96">
+            <div className="mt-10 p-3 h-96 sm:h-[calc(450px)] xl:h-[calc(450px)] 2xl:h-96 ">
                 <SlideImages images={post.images} />
             </div>
         )}
@@ -68,9 +107,9 @@ export default function PostPage() {
         >
 
         </div>
-        <div className="max-w-4xl mx-auto w-full">
+        {/* <div className="max-w-4xl mx-auto w-full">
             <CallToAction />
-        </div>
+        </div> */}
         <CommentSection postId={post && post._id} />
     </main>
   )

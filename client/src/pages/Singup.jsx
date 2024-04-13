@@ -2,6 +2,7 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import OAuth from '../components/OAuth'
+import { FaPencilAlt } from "react-icons/fa";
 
 const Singup = () => {
   const [formData, setFormData] = useState({})
@@ -50,14 +51,16 @@ const Singup = () => {
           {/* left */}
           <div className='flex-1'>
             <Link 
-              to="/" 
-              className='font-bold dark:text-white text-4xl'>
-              <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purpel-500 to-pink-500 rounded-lg text-white'>Travel</span>
-              Together
-            </Link>
-            <p className='text-sm mt-5'>
-              Travel Together helps you find organized trips around the kingdom and the world, Sign Up to discover more.
-            </p>
+                to="/" 
+                className='flex items-center gap-2 font-bold dark:text-white text-4xl pacificoFont'>
+                {/* <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purpel-500 to-pink-500 rounded-lg text-white'>Travel</span>
+                Together */}
+                <FaPencilAlt />
+                InkWell
+              </Link>
+              <p className='text-sm mt-5'>
+              Inkwell is for sharing your thoughts, experiences, and expertise. Join a diverse community of writers and thinkers, where every word penned enriches the tapestry of knowledge and creativity
+              </p>
           </div>
           {/* right */}
           <div className='flex-1'>
@@ -89,7 +92,7 @@ const Singup = () => {
                   onChange={handleChange}
                 />
               </div>
-              <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
+              <Button gradientDuoTone='purpleToBlue' type='submit' disabled={loading}>
                 {
                   loading ? (
                     <>

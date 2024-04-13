@@ -9,14 +9,15 @@ export default function SlideImages({images}) {
         return (
           <div 
             key={index}
-            className="flex h-full items-center justify-center bg-gray-400 dark:bg-gray-700"
+            className="flex h-full items-center justify-center"
           >
-            <img 
-                src={image.url}
-                alt={image.caption}
-                className='h-full w-full object-contain'
-            /> 
-          </div>
+                <img 
+                    src={image.url}
+                    alt={image.caption}
+                    className="h-full w-full object-cover" // Use Tailwind CSS classes for positioning and sizing
+                /> 
+        </div>
+
           )   
       })}
         </Carousel>

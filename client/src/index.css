@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 body {
     height: 100vh;
 }
@@ -38,4 +40,9 @@ body {
 
 .dark .post-content a {
     color: red;
+}
+
+/* Font Style for the Logo */
+.pacificoFont {
+    font-family: "Pacifico", cursive;
 }

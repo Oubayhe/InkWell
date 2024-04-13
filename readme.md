@@ -1,4 +1,4 @@
-# MERN Stack Project - Travel Together
+# MERN Stack Project - InkWell
 
 This is to simplify some parts of the MERN Project that might be a little of a chanllenge to implement in other projects in the future if your not used to them.
 

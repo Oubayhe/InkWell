@@ -32,7 +32,7 @@ export default function ViewSomePosts({posts}) {
         </div>
         <div className='flex justify-center my-2'>
             <Link to={'/posts'}>
-                <button className='py-2 px-4 border border-teal-500 rounded-xl hover:bg-teal-500'>
+                <button className='py-2 px-4 border border-teal-500 rounded-xl hover:bg-teal-500 hover:text-white'>
                     View more articles
                 </button>
             </Link>

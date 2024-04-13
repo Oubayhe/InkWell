@@ -2,8 +2,8 @@ import { Button } from 'flowbite-react'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import imageBG from "../assets/images/image5.png"
-import imageLittle from "../assets/images/image6.png"
+// import imageBG from "../assets/images/image5.png"
+import imageBG from "../assets/images/image6.png"
 import { FaPencilAlt } from "react-icons/fa";
 
 // teal-500
@@ -16,11 +16,11 @@ export default function HeroSection() {
       <div className="z-10 mx-12 w-1/2 h-72  px-4 py-6  rounded-xl ">
         <div className='text-5xl poppingsFont mb-2 leading-normal'>
             <h1>
-            Unleash Your <span className='kalamFont text-cyan-400'>Creativity</span>
+            Unleash Your <span className='kalamFont text-amber-300'>Creativity</span>
             </h1> 
             <h1 className='flex items-center gap-3'>
                 with
-                <span className='flex items-center gap-2 pacificoFont text-teal-500'>
+                <span className='flex items-center gap-2 pacificoFont text-cyan-400'>
                     <FaPencilAlt />  
                     InkWell
                 </span> 

@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import SlideImages from '../components/SlideImages'
 import CallToAction from '../components/CallToAction'
 import CommentSection from '../components/CommentSection'
+import RelatedPosts from '../components/RelatedPosts'
 
 export default function PostPage() {
     const { postSlug } = useParams()
@@ -71,16 +72,15 @@ export default function PostPage() {
             {post && post.title}
         </h1>
         <Link 
-            to={`search?category=${post && post.category}`}
+            to={`/search?category=${post && post.category}`}
             className='self-center mt-5 '
         >
             <Button color='gray' pill size='xs'> {post && post.category} </Button>
         </Link>
         {postWriter &&
         (<Link
-            to={`search?userId=${post && post.userId}`}
+            to={`/search?userId=${post && post.userId}`}
         >
-            {console.log(postWriter)}
             <div className='flex justify-center items-center mt-4 gap-2'>
                 <img 
                     src={postWriter.profilePicture}
@@ -111,6 +111,9 @@ export default function PostPage() {
             <CallToAction />
         </div> */}
         <CommentSection postId={post && post._id} />
+
+        {/* Explore More: Related Reads */}
+        <RelatedPosts post={post} />
     </main>
   )
 }

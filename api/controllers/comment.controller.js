@@ -1,5 +1,8 @@
 const Comment = require('../models/comment.model')
+const Post = require('../models/post.model')
+const User = require('../models/user.model')
 const errorHandler = require('../utils/error')
+const mongoose = require('mongoose')
 
 const createComment = async (req, res, next) => {
     try {
@@ -93,6 +96,10 @@ const deleteComment = async (req, res, next) => {
         next(error)
     }
 }
+
+  
+  
+
 
 
 module.exports = {

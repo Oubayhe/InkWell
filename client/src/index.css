@@ -42,6 +42,10 @@ body {
     color: red;
 }
 
+.post-content li {
+    margin-right: 5px;
+}
+
 /* Font Style for the Logo */
 .pacificoFont {
     font-family: "Pacifico", cursive;

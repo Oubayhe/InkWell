@@ -16,6 +16,8 @@ export default function AllPostsPage({searchTerm}) {
     const [category, setCategory] = useState('')
     const [userId, setUserId] = useState('')
     const navigate = useNavigate()
+    const [showMore, setShowMore] = useState(true)
+
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -97,14 +99,19 @@ export default function AllPostsPage({searchTerm}) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            setStartIndex(0)
             setLoading(true)
-            const res = await fetch(`/api/post/getposts?searchTerm=${search}&&category=${category}&&userId=${userId}&&order=${order}&&limit=${limit}`)
-            // const &&startIndex=${startIndex}
-            // const res = await fetch(`/api/post/getposts?searchTerm=${search}&&category=${category}`)
+            const res = await fetch(`/api/post/getposts?searchTerm=${search}&&category=${category}&&userId=${userId}&&order=${order}&&startIndex=${startIndex}&&limit=${limit}`)
             const data = await res.json()
             if (res.ok) {
                 setPosts(data.posts)
                 setNoPostFound(data.posts.length === 0)
+                if(data.posts.length < 9){
+                    setShowMore(false)
+                } else {
+                    setStartIndex(data.posts.length)
+                    setShowMore(true)
+                }
                 setLoading(false)
             }
             if (!res.ok) {
@@ -116,6 +123,27 @@ export default function AllPostsPage({searchTerm}) {
             setLoading(false)
         }
     }
+
+    const handleShowMore = async () => {
+        try {
+            const res = await fetch(`/api/post/getposts?searchTerm=${search}&&category=${category}&&userId=${userId}&&order=${order}&&startIndex=${startIndex}&&limit=${limit}`)
+            const data = await res.json()
+          if (res.ok) {
+            setPosts((prev) => [...prev, ...data.posts])
+            if(data.posts.length < 9){
+              setShowMore(false)
+            } else {
+                setStartIndex(data.posts.length)
+                setShowMore(true)
+            }
+          }
+          if (!res.ok) {
+            console.log(data.message)
+          }
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
 
     
     if ((posts.length == 0 || users.length == 0 || loading) && !noPostFound) return (
@@ -197,9 +225,19 @@ export default function AllPostsPage({searchTerm}) {
                     </div>
                 </div>
             </div>
-        )
-    })}
-    </div>)}
+            )
+        })}
+        {
+          showMore && (
+            <button 
+              onClick={handleShowMore}
+              className='w-full text-teal-500 self-center text-sm py-7'
+            >
+              Show more
+            </button>
+          )
+        }
+        </div>)}
     </div>
   )
 }

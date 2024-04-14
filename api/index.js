@@ -35,6 +35,7 @@ app.use((req, res, next) => {
     next()
 })
 
+// Made the Database accessable from anywhere
 // For JSON
 app.use(express.json())
 // for identify the token

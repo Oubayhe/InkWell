@@ -11,9 +11,9 @@ import { FaPencilAlt } from "react-icons/fa";
 export default function HeroSection() {
     const { currentUser } = useSelector((state) => state.user)
   return (
-    <div className='min-h-screen flex justify-between pt-20'>
+    <div className='relative min-h-screen flex justify-between pt-20'>
       {/* Prominent Heading  mt-[calc(-50px)] bg-opacity-5 bg-gray-500 */}
-      <div className="z-10 mx-12 w-1/2 h-72  px-4 py-6  rounded-xl ">
+      <div className="z-10 mx-12 w-[calc(90%)] md:w-1/2 h-72  px-4 py-6  rounded-xl ">
         <div className='text-5xl poppingsFont mb-2 leading-normal'>
             <h1>
             Unleash Your <span className='kalamFont text-amber-300'>Creativity</span>
@@ -52,7 +52,7 @@ export default function HeroSection() {
             
         </div>
       </div>
-      <div className="absolute right-5 top-20 w-[calc(550px)] h-[calc(550px)]">
+      <div className="absolute right-5 top-5 w-[calc(550px)] h-[calc(550px)]">
         <img src={imageBG} className='object-cover w-full' />
       </div>
 

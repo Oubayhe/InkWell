@@ -31,7 +31,7 @@ const Home = () => {
     }, [])
 
     if (loading) return (
-      <div className="flex justify-center items-center w-">
+      <div className="flex justify-center items-center min-h-screen">
         <Spinner size="xl" />
       </div>
     )

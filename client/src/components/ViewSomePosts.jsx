@@ -10,10 +10,10 @@ export default function ViewSomePosts({posts}) {
         <h1 className='text-2xl font-bold poppingsFont'>
             Lastest Posts
         </h1>
-        <div className="my-4 flex flex-wrap gap-4">
+        <div className="my-4 flex justify-center flex-wrap gap-4">
         {posts.map((postItem) => {
             return(
-                <div key={postItem._id} className="relative w-96 h-96 border border-slate-300 rounded-xl">
+                <div key={postItem._id} className="relative w-80 h-[calc(420px)] border border-slate-300 rounded-xl">
                         {/* Image Slider Container */}
                         <div className="w-full h-56">
                             <SlideImages images={postItem.images} />

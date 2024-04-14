@@ -1,6 +1,6 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react'
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AiOutlineSearch, } from 'react-icons/ai'
 import { FaMoon, FaSun } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
@@ -10,11 +10,13 @@ import { FaPencilAlt } from "react-icons/fa";
 
 
 
-const Header = () => {
+const Header = ({onSearch}) => {
     const path = useLocation()
     const {currentUser} = useSelector(state => state.user) 
     const dispatch = useDispatch()
     const {theme} = useSelector(state => state.theme)
+    const [searchTerm, setSearchTerm] = useState('')
+    const navigate = useNavigate()
 
     const handleSignout = async () => {
         try {
@@ -32,6 +34,17 @@ const Header = () => {
         }
     }
 
+    const handleSubmit = (e) => {
+        
+        e.preventDefault()
+        console.log(searchTerm)
+        onSearch(searchTerm)
+        setSearchTerm('')
+        navigate('/posts')
+
+    }
+
+
   return (
     <Navbar className='border-b-2'>
         <Link to="/" className='pacificoFont flex items-center gap-2 self-center whitespace-nowrap text-sm 
@@ -39,12 +52,14 @@ const Header = () => {
             <FaPencilAlt />
             InkWell
         </Link>
-        <form className='w-2/5'>
+        <form onSubmit={handleSubmit} className='w-2/5'>
             <TextInput
                 type="text"
                 placeholder="Search..."
                 rightIcon={AiOutlineSearch}
                 className=''
+                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
             />
         </form>
         <div className='flex gap-2 md:order-2'>

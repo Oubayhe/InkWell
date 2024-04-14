@@ -41,10 +41,13 @@ body {
 .dark .post-content a {
     color: red;
 }
-
-.post-content li {
-    margin-right: 5px;
+.post-content ul {
+    margin-left: 50px;
 }
+.post-content li {
+    list-style-type: disc;
+}
+
 
 /* Font Style for the Logo */
 .pacificoFont {
@@ -60,5 +63,10 @@ body {
 .kalamFont {
     font-family: "Kalam", cursive;
     font-weight: 700;
+    font-style: normal;
+}
+.poppingsFontBlack {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
     font-style: normal;
 }

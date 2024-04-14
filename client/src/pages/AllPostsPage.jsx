@@ -154,10 +154,10 @@ export default function AllPostsPage({searchTerm}) {
     )
   return (
 
-    <div className="flex relative min-h-screen">
+    <div className="flex flex-col md:flex-row relative">
         {console.log(posts, noPostFound, category, search)}
         {/* The Filtering Sidebar */}
-        <div className="w-1/5 border-r-2 dark:bg-slate-600 bg-gray-50 border-gray-200 dark:border-slate-700 ">
+        <div className="md:w-[calc(300px)] w-full h-full md:h-auto md:full border-b-2 md:border-b-0 md:border-r-2 dark:bg-slate-600 bg-gray-50 border-gray-200 dark:border-slate-700 ">
             <form onSubmit={handleSubmit} className='mx-4 my-8 flex flex-col gap-2'>
             <div className="relative">
                 <input onChange={(e) => {setSearch(e.target.value)}} type="text" id="small_outlined" className="block px-2.5 pb-1.5 pt-3 w-full text-sm text-gray-900 
@@ -209,7 +209,7 @@ export default function AllPostsPage({searchTerm}) {
         <div className="w-4/5 relative">
         {posts.map((post) => {
         return (
-            <div key={post._id} className="py-6 border-b border-gray-400 h-[calc(500px)] w-11/12 lg:h-72 
+            <div key={post._id} className="py-6 border-b border-gray-400 h-[calc(700px)] sm:h-[calc(500px)] w-11/12 lg:h-72 
             grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 mx-4 ">
                 <div className="h-full">
                     <SlideImages images={post.images} />

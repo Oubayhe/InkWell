@@ -72,14 +72,14 @@ export default function PostPage() {
             {post && post.title}
         </h1>
         <Link 
-            to={`/search?category=${post && post.category}`}
+            to={`/posts?category=${post && post.category}`}
             className='self-center mt-5 '
         >
             <Button color='gray' pill size='xs'> {post && post.category} </Button>
         </Link>
         {postWriter &&
         (<Link
-            to={`/search?userId=${post && post.userId}`}
+            to={`/posts?userId=${post && post.userId}`}
         >
             <div className='flex justify-center items-center mt-4 gap-2'>
                 <img 

@@ -26,7 +26,7 @@ mongoose.connect(process.env.MONGO_URI)
         console.log(err)
     })
 
-const __dirname = path.resolve()
+// const __dirname = path.resolve()
 
 // Middlewares
 // We can use this below as alternative of morgan('dev') middleware
@@ -46,9 +46,9 @@ app.use('/api/auth', authRoutes)
 app.use('/api/post', postRoutes)
 app.use('/api/comment', commentRoutes)
 
-app.use(express.static(path.join(__dirname, '/client/dist')))
+app.use(express.static(path.join( __dirname, '/client/dist')))
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+    res.sendFile(path.join( __dirname, 'client', 'dist', 'index.html'))
 })
 
 app.use((err, req, res, next) => {

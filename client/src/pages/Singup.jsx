@@ -32,16 +32,17 @@ const Singup = () => {
       // We adding this below just to make the function wait for the response of the api before checking out.
       const data = await res.json()
       if (data.success === false) {
+        setLoading(false)
         return setErrorMessage(data.message)
       }
-      setLoading(false)
       if(res.ok){
+        setLoading(false)
         navigate('/sign-in')
       }
 
     } catch (error) {
-      setErrorMessage(error.message)
       setLoading(false)
+      setErrorMessage(error.message)
     }
   }
 

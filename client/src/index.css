@@ -8,6 +8,10 @@ body {
     height: 100vh;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .ql-editor {
     font-size: 1.05rem;
 }
@@ -38,9 +42,6 @@ body {
     text-decoration: none;
 }
 
-.dark .post-content a {
-    color: red;
-}
 .post-content ul {
     margin-left: 50px;
 }

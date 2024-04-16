@@ -27,6 +27,7 @@ export default function CreatePost() {
         "Food and Cooking",
         "Technology",
         "Arts and Crafts",
+        "Religion",
         "Photography",
         "Education",
         "Environment and Sustainability",
@@ -38,7 +39,7 @@ export default function CreatePost() {
         "History and Culture",
         "Entertainment",
         "Sports and Fitness",
-        "Philosophy and Religion",
+        "Philosophy",
         "Current Events and News Analysis"
     ];
 

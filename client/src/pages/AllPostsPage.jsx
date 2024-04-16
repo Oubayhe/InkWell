@@ -149,6 +149,7 @@ export default function AllPostsPage() {
         "Food and Cooking",
         "Technology",
         "Arts and Crafts",
+        "Religion",
         "Photography",
         "Education",
         "Environment and Sustainability",
@@ -160,7 +161,7 @@ export default function AllPostsPage() {
         "History and Culture",
         "Entertainment",
         "Sports and Fitness",
-        "Philosophy and Religion",
+        "Philosophy",
         "Current Events and News Analysis"
     ];
 
@@ -181,7 +182,7 @@ export default function AllPostsPage() {
                 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-slate-700
                 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                 <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 
-                transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white dark:bg-slate-600 px-2 peer-focus:px-2 
+                transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white dark:bg-slate-800 px-2 peer-focus:px-2 
                 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
                 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 
                 peer-focus:-translate-y-3 start-1 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Search term</label>

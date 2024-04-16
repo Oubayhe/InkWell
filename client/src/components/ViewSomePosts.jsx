@@ -7,13 +7,11 @@ export default function ViewSomePosts({posts}) {
     
   return (
     <div className="px-14">
-        <h1 className='text-2xl font-bold poppingsFont'>
-            Lastest Posts
-        </h1>
-        <div className="my-4 flex justify-center flex-wrap gap-4">
+        <h1 className='text-2xl font-bold'>Latest Articles</h1>
+        <div className="my-4 flex justify-center items-center flex-wrap gap-4">
         {posts.map((postItem) => {
             return(
-                <div key={postItem._id} className="relative w-80 h-[calc(450px)] border border-slate-300 rounded-xl">
+                 <Link to={`/post/${postItem.slug}`} key={postItem._id} className="relative w-80 h-[calc(400px)] hover:-translate-y-2.5 ease-in-out duration-300">  
                         {/* Image Slider Container */}
                         <div className="w-full h-56">
                             <SlideImages images={postItem.images} />
@@ -22,11 +20,7 @@ export default function ViewSomePosts({posts}) {
                         
                         <h2 className='px-2 text-xl font-bold mt-4'> {postItem.title} </h2>
                         <p className='px-2 text-md text-gray-500'>{postItem.category}</p>
-                        <Link to={`/post/${postItem.slug}`}>
-                            <Button gradientDuoTone="purpleToBlue" outline className="m-2 absolute bottom-0 left-0 right-0">Read article</Button>
-                        </Link>
-                        
-                    </div>
+                    </Link>
             )
         } )}
         </div>

@@ -5,6 +5,7 @@ const User = require('../models/user.model')
 const bcryptjs = require('bcryptjs')
 const errorHandler = require('../utils/error')
 const jwt = require('jsonwebtoken')
+const validator = require('validator')
 
 
 const signup = async (req, res, next) => {
@@ -13,6 +14,14 @@ const signup = async (req, res, next) => {
 
     if (!username || !email || !password || username === '' || email === '' || password === ''){
         next(errorHandler(400, 'All fields are required'))
+    }
+    // Email
+    if (!validator.isEmail(email)) {
+        next(errorHandler(400, 'Wrong email format'))
+    }
+    // Password
+    if(!validator.isStrongPassword(password)) {
+        next(errorHandler(400, 'Weak password'))
     }
 
     try {

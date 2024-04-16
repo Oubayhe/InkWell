@@ -121,6 +121,7 @@ export default function UpdatePost() {
         "Food and Cooking",
         "Technology",
         "Arts and Crafts",
+        "Religion",
         "Photography",
         "Education",
         "Environment and Sustainability",
@@ -132,7 +133,7 @@ export default function UpdatePost() {
         "History and Culture",
         "Entertainment",
         "Sports and Fitness",
-        "Philosophy and Religion",
+        "Philosophy",
         "Current Events and News Analysis"
     ];
 

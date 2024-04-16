@@ -3,7 +3,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 // import imageBG from "../assets/images/image5.png"
-import imageBG from "../assets/images/image6.png"
+// import imageBG from "../assets/images/image6.png"
+import imageBG from "../assets/images/imageManBlog.png"
 import { FaPencilAlt } from "react-icons/fa";
 
 // teal-500
@@ -11,10 +12,10 @@ import { FaPencilAlt } from "react-icons/fa";
 export default function HeroSection() {
     const { currentUser } = useSelector((state) => state.user)
   return (
-    <div className='relative min-h-screen flex justify-between pt-20'>
+    <div className='relative min-h-screen flex flex-col mt-16 md:mt-0 md:flex-row justify-center gap-5 items-center'>
       {/* Prominent Heading  mt-[calc(-50px)] bg-opacity-5 bg-gray-500 */}
-      <div className="z-10 mx-12 w-[calc(90%)] md:w-1/2 h-72  px-4 py-6  rounded-xl ">
-        <div className='text-5xl poppingsFont mb-2 leading-normal'>
+      <div className="pl-10 lg:pl-0">
+        <div className='text-5xl poppingsFont mb-8 leading-12'>
             <h1>
             Unleash Your <span className='kalamFont text-amber-300'>Creativity</span>
             </h1> 
@@ -26,33 +27,33 @@ export default function HeroSection() {
                 </span> 
             </h1>
         </div>
-        <p>
+        <p className='text-xl'>
             Join us to share your voice, explore new ideas, <br/> and connect with fellow creatives.
         </p>
         {/* call-to-action */}
-        <div className="flex gap-4 mt-6">
+        <div className="flex gap-4 mt-8">
             { currentUser ? (
             <Link to={'/create-post'}>
-                <Button gradientDuoTone="purpleToBlue">
+                <Button size='lg' gradientDuoTone="pinkToOrange">
                     Start Writing   
                 </Button>
             </Link>) : (
             <Link to={'/sign-in'}>
-                <Button gradientDuoTone="purpleToBlue">
+                <Button size='lg' gradientDuoTone="pinkToOrange">
                     Start Writing
                 </Button>
             </Link>
             )}
 
             <Link to={'/posts'}>
-                <Button outline gradientMonochrome="cyan" >
-                    Explore Stories
+                <Button outline size='lg' gradientDuoTone="pinkToOrange" >
+                    Explore Articles
                 </Button>
             </Link>
             
         </div>
       </div>
-      <div className="absolute right-5 top-5 w-[calc(550px)] h-[calc(550px)]">
+      <div className="w-[calc(500px)] h-[calc(500px)] ">
         <img src={imageBG} className='object-cover w-full' />
       </div>
 

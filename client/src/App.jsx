@@ -14,6 +14,7 @@ import PostPage from './pages/PostPage'
 import ScrollToTheTop from './components/ScrollToTheTop'
 import AllPostsPage from './pages/AllPostsPage'
 import ErrorPage from './pages/ErrorPage'
+import Community from './pages/Community'
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/create-post' element={<CreatePost />} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
+        <Route path='/community' element={<Community />} />
         <Route path='/posts' element={<AllPostsPage />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
         <Route path='*' element={ <ErrorPage />} />

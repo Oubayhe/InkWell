@@ -223,7 +223,7 @@ export default function AllPostsPage() {
         {noPostFound ? (
                 <h1 className='text-5xl font-bold m-4'>No post was found</h1>            
         ) : (
-        <div className="w-4/5 relative">
+        <div className="w-4/5 relative mx-auto">
         {posts.map((post) => {
         return (
             <div key={post._id} className="py-6 border-b border-gray-400 h-[calc(700px)] sm:h-[calc(500px)] w-11/12 lg:h-72 

@@ -28,13 +28,13 @@ export default function FooterCom() {
                       Otmane Oubayhe Portfolio
                     </Footer.Link>
                     <Footer.Link 
-                      href='https://github.com/Oubayhe/travel_together' 
+                      href='https://github.com/Oubayhe/InkWell' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
                       {/* The noopener attribute prevents the new page from being able to access the window.opener property of the opening page. This is a security measure to prevent the newly opened page from manipulating the original page, which could potentially lead to security vulnerabilities. */}
                       {/* The noreferrer attribute prevents the browser from sending the Referer header to the linked page. The Referer header typically contains information about the URL of the page that linked to the current page. By using noreferrer, you prevent the linked page from knowing the URL of the page that referred the user to it. */}
-                      Travel Together
+                      InkWell
                     </Footer.Link>
                   </Footer.LinkGroup>
                 </div>
@@ -61,14 +61,14 @@ export default function FooterCom() {
                   <Footer.Title title='Legal' />
                   <Footer.LinkGroup col >
                     <Footer.Link 
-                      href='https://github.com/Oubayhe/travel_together' 
+                      href='https://github.com/Oubayhe/InkWell' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >
                       Privacy Policy
                     </Footer.Link>
                     <Footer.Link 
-                      href='https://github.com/Oubayhe/travel_together' 
+                      href='https://github.com/Oubayhe/InkWell' 
                       target='_blank' 
                       rel='noopener noreferrer'
                     >

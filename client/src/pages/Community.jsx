@@ -37,16 +37,16 @@ export default function Community() {
     }
 
   return (
-    <div className='min-h-screen my-10 flex flex-col items-center'>
+    <div className='min-h-screen my-20 flex flex-col items-center'>
         {/* Search bar for a certain user */}
         <TextInput 
             placeholder='Find a user...'
-            className='w-2/3 mb-5'
+            className='w-2/3'
             type='text' 
             onChange={(e)=>setSearchedUser(e.target.value)} 
         />
         {/* View our community of writer and readers */}
-        <div className="flex flex-wrap justify-center gap-4 py-10">
+        <div className="flex flex-wrap justify-center gap-4 py-5 mx-5 md:mx-20">
         {users.map((user) => {
             if (user.username.includes(searchedUser)) {
                 return (

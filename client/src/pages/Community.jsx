@@ -46,7 +46,7 @@ export default function Community() {
             onChange={(e)=>setSearchedUser(e.target.value)} 
         />
         {/* View our community of writer and readers */}
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-4 py-10">
         {users.map((user) => {
             if (user.username.includes(searchedUser)) {
                 return (

@@ -11,7 +11,6 @@ export default function Comment({comment, onLike, onEdit, onDelete}) {
     const [isEditing, setIsEditing] = useState(false)
     const [editedContent, setEditedContent] = useState(comment.content)
     const [showModal, setShowModal] = useState(false)
-    console.log(user)
 
     useEffect(() => {
         const getUser = async () => {
@@ -58,14 +57,12 @@ export default function Comment({comment, onLike, onEdit, onDelete}) {
         const res = await fetch(`/api/comment/deleteComment/${comment._id}`, {
           method: 'DELETE'
         })
-        // const data = await res.json()
+        const data = await res.json()
         if(res.ok) {
           setShowModal(false)
           onDelete(comment._id)
         }
-        // if (!res.ok) {
-        //   console.log(data.message)
-        // }
+
       } catch (error) {
         console.log(error.message)
       }

@@ -9,6 +9,7 @@ import 'react-circular-progressbar/dist/styles.css'
 import SlideImages from '../components/SlideImages';
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import LittleImages from '../components/LittleImages';
 
 export default function UpdatePost() {
     const [files, setFiles] = useState({})
@@ -28,7 +29,6 @@ export default function UpdatePost() {
                 const res = await fetch(`/api/post/getposts?postId=${postId}`)
                 const data = await res.json()
                 if (!res.ok) {
-                    console.log(data.message)
                     setPublishError(data.message)
                     return
                 } 
@@ -103,7 +103,6 @@ export default function UpdatePost() {
             } catch (error) {
                 setImageUploadError('Image upload failed')
                 setImageUploadProgress(null)
-                console.log(error)
             }
         }
     }
@@ -111,6 +110,11 @@ export default function UpdatePost() {
     useEffect(() => {
         setFormData(prevFormData => ({...prevFormData, images: images}));
     }, [images])
+
+    const handleDeleteImage = (imageCaption) => {
+        setNumbermberImgBeforeUpdating(numberImgBeforeUpdating - 1)
+        setImages(images.filter((imageItem) => imageItem.caption != imageCaption ))
+    }
 
     // List of all categories:
     const categories = [
@@ -140,7 +144,6 @@ export default function UpdatePost() {
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-        {console.log(images, files, numberImgBeforeUpdating)}
         <h1 className='text-center text-3xl my-7 font-semibold'>Create a post</h1>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
@@ -203,8 +206,12 @@ export default function UpdatePost() {
                 </Alert>
             )}
             {images.length > 0 && (
-                <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-                    <SlideImages images={images} />
+                <div className="h-auto">
+                    <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+                        <SlideImages images={images} />
+                    </div>
+                    <LittleImages images={images} deleteImage={handleDeleteImage} />
+                    
                 </div>
             )}
             {

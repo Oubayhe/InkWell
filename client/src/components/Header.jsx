@@ -25,7 +25,7 @@ const Header = () => {
             })
             const data = await res.json()
             if (!res.ok) {
-                console.log(data.message)
+                return
             } else {
                 dispatch(signoutSuccess())
             }
@@ -84,7 +84,6 @@ const Header = () => {
                         }
                     >
                         <Dropdown.Header>
-                            { console.log(currentUser.email, currentUser.username)}
                             <span className='block text-sm'>{currentUser.username}</span>
                             <span className='block text-sm font-medium truncate'>{currentUser.email}</span>
                         </Dropdown.Header>

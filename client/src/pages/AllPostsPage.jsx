@@ -39,7 +39,6 @@ export default function AllPostsPage() {
             })
         }
 
-        console.log(sidebarData)
         const fetchPosts = async () => {
             try {
                 setLoading(true)

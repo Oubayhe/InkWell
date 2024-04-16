@@ -10,7 +10,7 @@ import { FaPencilAlt } from "react-icons/fa";
 
 
 
-const Header = ({onSearch}) => {
+const Header = () => {
     const path = useLocation()
     const {currentUser} = useSelector(state => state.user) 
     const dispatch = useDispatch()
@@ -37,10 +37,7 @@ const Header = ({onSearch}) => {
     const handleSubmit = (e) => {
         
         e.preventDefault()
-        console.log(searchTerm)
-        onSearch(searchTerm)
-        setSearchTerm('')
-        navigate('/posts')
+        navigate(`/posts?searchTerm=${searchTerm}`)
 
     }
 

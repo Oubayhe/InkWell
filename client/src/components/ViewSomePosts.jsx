@@ -13,7 +13,7 @@ export default function ViewSomePosts({posts}) {
         <div className="my-4 flex justify-center flex-wrap gap-4">
         {posts.map((postItem) => {
             return(
-                <div key={postItem._id} className="relative w-80 h-[calc(420px)] border border-slate-300 rounded-xl">
+                <div key={postItem._id} className="relative w-80 h-[calc(450px)] border border-slate-300 rounded-xl">
                         {/* Image Slider Container */}
                         <div className="w-full h-56">
                             <SlideImages images={postItem.images} />

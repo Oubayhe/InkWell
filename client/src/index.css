@@ -20,17 +20,17 @@ body {
     font-size: 1.5rem;
     font-weight: 600;
     font-family: sans-serif;
-    margin: 1.5rem 0;
+    margin-top: 1.5rem 0;
 }
 .post-content h2 {
     font-size: 1.3rem;
     font-family: sans-serif;
-    margin: 1.3rem 0;
+    margin-top: 1.3rem 0;
 }
 .post-content h3 {
     font-size: 1.15rem;
     font-family: sans-serif;
-    margin: 1.15rem 0;
+    margin-top: 1.15rem 0;
 }
 
 .post-content a {
@@ -69,4 +69,13 @@ body {
     font-family: "Poppins", sans-serif;
     font-weight: 800;
     font-style: normal;
+}
+
+.oops {
+    background-image: url('/images/oops.jpg');
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 150px;
+
 }

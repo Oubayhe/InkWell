@@ -13,14 +13,14 @@ import UpdatePost from './pages/UpdatePost'
 import PostPage from './pages/PostPage'
 import ScrollToTheTop from './components/ScrollToTheTop'
 import AllPostsPage from './pages/AllPostsPage'
+import ErrorPage from './pages/ErrorPage'
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState('')
 
   return (
     <BrowserRouter>
       <ScrollToTheTop />
-      <Header onSearch={(txt) => setSearchTerm(txt)} />
+      <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
@@ -31,8 +31,9 @@ const App = () => {
           <Route path='/create-post' element={<CreatePost />} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
-        <Route path='/posts' element={<AllPostsPage searchTerm={searchTerm} />} />
+        <Route path='/posts' element={<AllPostsPage />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
+        <Route path='*' element={ <ErrorPage />} />
       </Routes>
       <FooterCom />
     </BrowserRouter>

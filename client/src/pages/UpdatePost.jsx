@@ -112,6 +112,30 @@ export default function UpdatePost() {
         setFormData(prevFormData => ({...prevFormData, images: images}));
     }, [images])
 
+    // List of all categories:
+    const categories = [
+        "Creative Writing",
+        "Personal Development",
+        "Travel",
+        "Lifestyle",
+        "Food and Cooking",
+        "Technology",
+        "Arts and Crafts",
+        "Photography",
+        "Education",
+        "Environment and Sustainability",
+        "Parenting",
+        "Relationships",
+        "Finance",
+        "Career and Business",
+        "Science and Nature",
+        "History and Culture",
+        "Entertainment",
+        "Sports and Fitness",
+        "Philosophy and Religion",
+        "Current Events and News Analysis"
+    ];
+
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
@@ -134,9 +158,16 @@ export default function UpdatePost() {
                     onChange={(e) => setFormData({...formData, category: e.target.value})}
                     value={formData.category}
                 >
-                    <option value="uncategorized">Select a category</option>
-                    <option value="organized_vecation">Organized vecation</option>
-                    <option value="travel_buddies">Travel Buddies</option>
+                    {categories.map((categoryItem) => {
+                        return (
+                            <option 
+                                key={categories.indexOf(categoryItem)} 
+                                value={categoryItem}
+                            > 
+                                {categoryItem} 
+                            </option>
+                        )
+                    })}
                 </Select>
             </div>
             <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

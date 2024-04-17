@@ -10,11 +10,11 @@ const validator = require('validator')
 
 const signup = async (req, res, next) => {
     const { username, email, password } = req.body
-    const hashedPassword = bcryptjs.hashSync(password, 10)
 
     if (!username || !email || !password || username === '' || email === '' || password === ''){
         next(errorHandler(400, 'All fields are required'))
     }
+
     // Email
     if (!validator.isEmail(email)) {
         next(errorHandler(400, 'Wrong email format'))
@@ -23,14 +23,23 @@ const signup = async (req, res, next) => {
     if(!validator.isStrongPassword(password)) {
         next(errorHandler(400, 'Weak password'))
     }
-
-    try {
-        const newuser = new User({username, email, password: hashedPassword})
-        await newuser.save()
-        return res.status(200).json({ message: 'User was added succefuly' })
-    } catch (error) {
-        next(error)
+    
+    if (validator.isEmail(email) && validator.isStrongPassword(password)) {
+        try {
+        
+            const hashedPassword = bcryptjs.hashSync(password, 10)
+            const newuser = new User({username, email, password: hashedPassword})
+            await newuser.save()
+            return res.status(200).json({ message: 'User was added succefuly' })
+        } catch (error) {
+            if (error.code === 11000) {
+                // MongoDB duplicate key error
+                return next(errorHandler(400, 'Username or email is already in use'))
+            }
+            next(error)
+        }
     }
+    
 }
 
 const signin = async (req, res, next) => {

@@ -69,6 +69,8 @@ const Singup = () => {
               <div>
                 <Label value='Your username' />
                 <TextInput
+                  color={ (errorMessage && errorMessage == 'Username or email is already in use') ?
+                  'failure' : 'gray'}
                   type='text'
                   placeholder='Ex.John Wick'
                   id='username'
@@ -78,6 +80,8 @@ const Singup = () => {
               <div>
                 <Label value='Your email' />
                 <TextInput
+                  color={ (errorMessage && errorMessage == 'Username or email is already in use') ?
+                  'failure' : 'gray'}
                   type='email'
                   placeholder='name@company.com'
                   id='email'
@@ -87,6 +91,8 @@ const Singup = () => {
               <div>
                 <Label value='Your password' />
                 <TextInput
+                  color={ (errorMessage && errorMessage == 'Password must be at least 8 characters long and contain a mix of uppercase and lowercase letters, numbers, and special characters.') ?
+                  'failure' : 'gray' }
                   type='password'
                   placeholder='Password'
                   id='password'

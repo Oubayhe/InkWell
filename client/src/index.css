@@ -28,7 +28,9 @@
     font-weight: 700;
     font-style: normal;
 }
-
+.ql-editor.ql-blank::before {
+    color: gray;
+}
 /* Font Style for the Logo */
 .pacificoFont {
     font-family: "Pacifico", sans-serif;

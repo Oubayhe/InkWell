@@ -21,7 +21,7 @@ const signup = async (req, res, next) => {
     }
     // Password
     if(!validator.isStrongPassword(password)) {
-        next(errorHandler(400, 'Weak password'))
+        next(errorHandler(400, 'Password must be at least 8 characters long and contain a mix of uppercase and lowercase letters, numbers, and special characters.'))
     }
     
     if (validator.isEmail(email) && validator.isStrongPassword(password)) {

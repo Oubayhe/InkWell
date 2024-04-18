@@ -179,7 +179,7 @@ export default function CreatePost() {
             }
             <ReactQuill 
                 theme='snow'  
-                placeholder='Describe your trip...' 
+                placeholder='Write about anything that interests you...' 
                 className='h-72 mb-12' 
                 required
                 onChange={(value) => {

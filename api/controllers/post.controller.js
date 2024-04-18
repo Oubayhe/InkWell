@@ -1,5 +1,7 @@
 const errorHandler = require('../utils/error')
-const Post = require('../models/post.model')
+const Post = require('../models/post.model');
+const randomImage = require('../utils/defaultImage');
+
 
 
 const createPost = async (req, res, next) => {
@@ -10,10 +12,7 @@ const createPost = async (req, res, next) => {
 
     // Set default images if images array is not provided in the request
     if (req.body.images.length == 0) {
-        req.body.images = [{
-            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvOhjemRGwgin-OfscF_9897HTfaTECNz3CA&usqp=CAU',
-            caption: 'default-image'
-        }];
+        req.body.images = [randomImage()];
     }
 
     const unique = new Date().getTime() + '_' + req.user.username 
@@ -86,6 +85,10 @@ const deletePost = async (req, res, next) => {
 const updatePost = async (req, res, next) => {
     if(req.user.id !== req.params.userId) {
         return next(errorHandler(403, 'You are not allowed to update this post'))
+    }
+    // Set default images if images array is not provided in the request
+    if (req.body.images.length == 0) {
+        req.body.images = [randomImage()];
     }
     try {
         const updatedPost = await Post.findByIdAndUpdate(

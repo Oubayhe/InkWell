@@ -67,7 +67,18 @@ export default function DashPosts() {
 
 
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 
+    <div className="min-h-screen w-full flex flex-col gap-4">
+      <Link to='/create-post' className='w-full flex justify-end'>
+          <Button
+            type='button'
+            gradientDuoTone='purpleToBlue'
+            className='w-full md:w-1/4 mx-2 mt-2 '
+            size='lg'
+        >
+            Write a post
+        </Button>
+      </Link>
+      <div className='table-auto overflow-x-scroll md:mx-auto p-3 
     scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 '>
       { userPosts.length > 0 ? (
         <>
@@ -169,6 +180,7 @@ export default function DashPosts() {
       ) : (
         <p>You have no posts yet</p>
       )}
+    </div>
     </div>
   )
 }

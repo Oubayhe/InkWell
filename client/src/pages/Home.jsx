@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { Suspense } from 'react'
 import HeroSection from '../components/HeroSection'
 import ViewSomePosts from '../components/ViewSomePosts'
-import { Spinner } from 'flowbite-react'
+import LoadingHomePage from '../loading_pages/LoadingHomePage'
 import { useQuery } from '@tanstack/react-query'
 
-
-const Home = () => {
-
+const PostsSection = () => {
   const getSixPosts = async () => {
+    
     const res = await fetch('/api/post/getposts?limit=6')
     const data = await res.json()
+    
     return data.posts
   }
 
-  const { data: posts, isLoading, error } = useQuery({
+  const { data: posts, error } = useQuery({
     queryFn: getSixPosts,
-    queryKey: ["home_posts"]
+    queryKey: ["home_posts"],
+    suspense: true
   })
-
-  if (isLoading) return (
-    <div className="flex justify-center items-center min-h-screen">
-      <Spinner size="xl" />
-    </div>
-  )
 
   if (error) return (
     <div>
@@ -30,12 +25,18 @@ const Home = () => {
     </div>
   )
 
-    if (!isLoading && posts) return (
-      <div className=''>
-        <HeroSection />
-        <ViewSomePosts posts = {posts} />
-      </div>
-    )
+  return <ViewSomePosts posts={posts} />
+}
+
+const Home = () => {
+  return (
+    <div className=''>
+      <HeroSection />
+      <Suspense fallback={<LoadingHomePage />}>
+        <PostsSection />
+      </Suspense>
+    </div>
+  )
 }
 
 export default Home

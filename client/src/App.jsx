@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -15,28 +15,33 @@ import ScrollToTheTop from './components/ScrollToTheTop'
 import AllPostsPage from './pages/AllPostsPage'
 import ErrorPage from './pages/ErrorPage'
 import Community from './pages/Community'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const App = () => {
+
+  const queryClient = new QueryClient()
 
   return (
     <BrowserRouter>
       <ScrollToTheTop />
       <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/sign-in' element={<Signin />} />
-        <Route path='/sign-up' element={<Singup />} />
-        <Route element={<PrivateRoute />}>
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/create-post' element={<CreatePost />} />
-          <Route path='/update-post/:postId' element={<UpdatePost />} />
-        </Route>
-        <Route path='/community' element={<Community />} />
-        <Route path='/posts' element={<AllPostsPage />} />
-        <Route path='/post/:postSlug' element={<PostPage />} />
-        <Route path='*' element={ <ErrorPage />} />
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/sign-in' element={<Signin />} />
+          <Route path='/sign-up' element={<Singup />} />
+          <Route element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/create-post' element={<CreatePost />} />
+            <Route path='/update-post/:postId' element={<UpdatePost />} />
+          </Route>
+          <Route path='/community' element={<Community />} />
+          <Route path='/posts' element={<AllPostsPage />} />
+          <Route path='/post/:postSlug' element={<PostPage />} />
+          <Route path='*' element={ <ErrorPage />} />
+        </Routes>
+      </QueryClientProvider>
       <FooterCom />
     </BrowserRouter>
   )

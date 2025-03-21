@@ -42,9 +42,6 @@ export default function CreatePost() {
         "Philosophy",
         "Current Events and News Analysis"
     ];
-
-    
-
     
     const handleSubmit = async (e) => {
         e.preventDefault()
